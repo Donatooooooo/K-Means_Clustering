@@ -3,7 +3,7 @@ public class Data {
 	int numberOfExamples;
 	Attribute attributeSet[];
 	
-	protected Data(){
+	Data(){
 		
 		data = new Object[14][5];
 		
@@ -114,19 +114,19 @@ public class Data {
         attributeSet[4] = new DiscreteAttribute("PlayTennis", 4, playTennisValues);
 	}
 	
-	protected int getNumberOfExamples() {
+	int getNumberOfExamples() {
 		return numberOfExamples;
 	}
 	
-	protected int getNumberOfExplanatoryAttributes() {
+	int getNumberOfExplanatoryAttributes() {
 		return attributeSet.length;
 	}
 	
-	protected Object getAttributeValue(int exampleIndex, int attributeIndex) {
+	Object getAttributeValue(int exampleIndex, int attributeIndex) {
 		return data[exampleIndex][attributeIndex];
 	}
 	
-	protected Attribute getAttribute(int index){
+	Attribute getAttribute(int index){
 		return attributeSet[index];
 	}
 	
