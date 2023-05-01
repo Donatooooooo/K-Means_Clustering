@@ -1,4 +1,4 @@
-abstract public class Attribute{
+public abstract class Attribute{
 	private String name;
 	private int index;
 	

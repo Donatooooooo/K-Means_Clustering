@@ -1,7 +1,9 @@
+import java.util.*;
+
 public class Data {
-	Object data [][];
-	int numberOfExamples;
-	Attribute attributeSet[];
+	private Object data [][];
+	private int numberOfExamples;
+	private Attribute attributeSet[];
 	
 	Data(){
 		
@@ -93,24 +95,24 @@ public class Data {
 		attributeSet[0] = new DiscreteAttribute("Outlook",0, outLookValues);
 		
 		String[] temperatureValues = new String[3];
-        outLookValues[0] = "cold";
-        outLookValues[1] = "mild";
-        outLookValues[2] = "hot";
+		temperatureValues[0] = "cold";
+		temperatureValues[1] = "mild";
+		temperatureValues[2] = "hot";
         attributeSet[1] = new DiscreteAttribute("Temperature", 1, temperatureValues);
 
         String[] humidityValues = new String[2];
-        outLookValues[0] = "high";
-        outLookValues[1] = "normal";
+        humidityValues[0] = "high";
+        humidityValues[1] = "normal";
         attributeSet[2] = new DiscreteAttribute("Humidity", 2, humidityValues);
 
         String[] windValues = new String[2];
-        outLookValues[0] = "weak";
-        outLookValues[1] = "strong";
+        windValues[0] = "weak";
+        windValues[1] = "strong";
         attributeSet[3] = new DiscreteAttribute("Wind", 3, windValues);
 
         String[] playTennisValues = new String[2];
-        outLookValues[0] = "yes";
-        outLookValues[1] = "no";
+        playTennisValues[0] = "yes";
+        playTennisValues[1] = "no";
         attributeSet[4] = new DiscreteAttribute("PlayTennis", 4, playTennisValues);
 	}
 	
@@ -150,11 +152,77 @@ public class Data {
 		return s;
 	}
 	
+	Tuple getItemSet(int index) {
+        Tuple tuple = new Tuple(attributeSet.length);
+        
+        for (int i = 0; i < attributeSet.length; i++)
+        {
+            tuple.add(new DiscreteItem((DiscreteAttribute) attributeSet[i],(String) data[index][i]), i);
+        }
+        
+        return tuple;
+    }
+	
+	int[] sampling(int k) {
+        int[] centroidIndexes = new int[k]; //choose k random different centroids in data.
+        Random rand = new Random();
+        rand.setSeed(System.currentTimeMillis());
+        for (int i = 0; i < k; i++) {
+            boolean found = false;
+            int c;
+            do {
+                found = false;
+                c = rand.nextInt(getNumberOfExamples()); // verify that centroid[c] is not equal to a centroide already stored in CentroidIndexes
+                for (int j = 0; j < i; j++)
+                    if (compare(centroidIndexes[j], c)) {
+                        found = true;
+                        break;
+                    }
+            }
+            while (found);
+            centroidIndexes[i] = c;
+        }
+        return centroidIndexes;
+    }
+	
+	boolean compare(int i, int j) {
+		
+		for(int k = 0; k < getNumberOfExplanatoryAttributes(); k++) 
+		{
+			if (!data[i][k].equals(data[j][k])) 
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	Object computePrototype(ArraySet idList, Attribute attribute) {
+		return computePrototype(idList, (DiscreteAttribute)attribute);
+	}
+	
+	String computePrototype(ArraySet idList, DiscreteAttribute attribute) {
+		int max = attribute.frequency(this, idList, attribute.getValue(0)), tmp;
+	    String prototype = attribute.getValue(0);
+	        
+	    for (int i = 1; i < attribute.getNumberOfDistinctValues(); i++)
+	    {
+	         tmp = attribute.frequency(this, idList, attribute.getValue(i));
+	         if (tmp > max) 
+	         {
+	        	 max = tmp;
+	        	 prototype = attribute.getValue(i);
+	          }
+	     }
+	        
+	    return prototype;
+	}
+	
 	public static void main(String[] args) {
         Data trainingSet = new Data();
         System.out.println(trainingSet);
-
-
+        
     }
 
 }
