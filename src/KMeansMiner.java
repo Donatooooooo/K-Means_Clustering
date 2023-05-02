@@ -1,11 +1,11 @@
 public class KMeansMiner {
 	 ClusterSet C;
 	
-	KMeansMiner(int k){
+	KMeansMiner(int k) {
 		C = new ClusterSet(k);
 	}
 	
-	ClusterSet getC(){
+	ClusterSet getC() {
 		return C;
 	}
 	

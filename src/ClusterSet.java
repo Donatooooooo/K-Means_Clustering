@@ -3,7 +3,7 @@ public class ClusterSet {
 	private Cluster C[];
 	private int i = 0; //posizione valida per la memorizzazione di un nuovo cluster in C
 	
-	ClusterSet(int k){
+	ClusterSet(int k) {
 		C = new Cluster[k];
 	}
 	

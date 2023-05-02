@@ -6,7 +6,6 @@ public class MainTest {
 	 */
 	public static void main(String[] args) {
 		
-		
 		Data data =new Data();
 		System.out.println(data);
 		int k=3;
