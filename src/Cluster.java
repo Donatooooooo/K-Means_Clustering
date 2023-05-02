@@ -3,10 +3,6 @@ public class Cluster {
 	private Tuple centroid;
 	private ArraySet clusteredData; 
 	
-	/*Cluster(){
-		
-	}*/
-
 	Cluster(Tuple centroid){
 		this.centroid=centroid;
 		clusteredData=new ArraySet();
