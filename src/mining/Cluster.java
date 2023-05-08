@@ -1,3 +1,7 @@
+package mining;
+
+import utility.ArraySet;
+import data.*;
 
 public class Cluster {
 	private Tuple centroid;

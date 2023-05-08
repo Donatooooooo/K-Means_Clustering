@@ -1,22 +1,52 @@
+package mining;
+import data.*;
+
+/**
+ * Classe raffigurante un insieme di cluster e posizione all'interno data dall'indice i  
+ *
+ */
+
 public class ClusterSet {
 	
+	/**
+	 * array di oggetti cluster
+	 */
 	private Cluster C[];
+	
+	/**
+	 * indice di posizione all'interno dell'array C
+	 */
 	private int i = 0; //posizione valida per la memorizzazione di un nuovo cluster in C
 	
-	ClusterSet(int k) {
+	/**
+	 * Costruttore della classe ClusterSet
+	 * @param k intero raffigurante la dimensione di C[]
+	 */
+	ClusterSet(int k) throws OutOfRangeSampleSize {
+		if(k  <= 0 || k > 14)
+			throw new OutOfRangeSampleSize();
 		C = new Cluster[k];
 	}
 	
+	/**
+	 * Aggiunge un elemento all'interno di C[] in posizione i incrementadola
+	 * @param c cluster da inserire
+	 */
 	void add(Cluster c) {
 		C[i]=c;
 		i++;
 	}
 	
+	/**
+	 * Ritorna il cluster presente in posizione i
+	 * @param i intero raffigurante la posizione 
+	 */
 	Cluster get(int i) {
 		return C[i];
 	}
 	
-	void initializeCentroids(Data data) {
+	
+	void initializeCentroids(Data data) throws OutOfRangeSampleSize {
 		int[] centroidIndexes = data.sampling(C.length);
        
 		for (int i = 0; i < centroidIndexes.length; i++) {

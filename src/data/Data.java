@@ -1,11 +1,15 @@
+package data;
+
 import java.util.*;
+import utility.ArraySet;
 
 public class Data {
 	private Object data [][];
 	private int numberOfExamples;
 	private Attribute attributeSet[];
+	private int distinctTuples;
 	
-	Data(){
+	public Data(){
 		
 		data = new Object[14][5];
 		
@@ -28,11 +32,11 @@ public class Data {
 	     data[1][1] =new String ("hot");
 	     data[2][1] = new String ("hot");
 	     data[3][1] = new String("mild");
-	     data[4][1] = new String("cool");
-	     data[5][1] = new String("cool");
-	     data[6][1] = new String("cool");
+	     data[4][1] = new String("cold");
+	     data[5][1] = new String("cold");
+	     data[6][1] = new String("cold");
 	     data[7][1] = new String("mild");
-	     data[8][1] = new String("cool");
+	     data[8][1] = new String("cold");
 	     data[9][1] = new String("mild");
 	     data[10][1] = new String("mild");
 	     data[11][1] = new String("mild");
@@ -83,6 +87,10 @@ public class Data {
         data[11][4] = new String ("yes");
         data[12][4] = new String ("yes");
         data[13][4] = new String ("no");
+        
+        
+        
+        
 
 		
 		/*data[0][0]=new String ("sunny");
@@ -162,6 +170,7 @@ public class Data {
 	
 		numberOfExamples=14;	
 		attributeSet = new Attribute[5];
+		distinctTuples = countDistinctTuples();
 
 		// TO DO : avvalorare ciascune elemento di attributeSet con un oggetto della classe DiscreteAttribute che modella il corrispondente attributo (e.g. outlook, temperature,etc)
 		String outLookValues[]=new String[3];
@@ -192,15 +201,15 @@ public class Data {
         attributeSet[4] = new DiscreteAttribute("PlayTennis", 4, playTennisValues);
 	}
 	
-	int getNumberOfExamples() {
+	public int getNumberOfExamples() {
 		return numberOfExamples;
 	}
 	
-	int getNumberOfExplanatoryAttributes() {
+	public int getNumberOfExplanatoryAttributes() {
 		return attributeSet.length;
 	}
 	
-	Object getAttributeValue(int exampleIndex, int attributeIndex) {
+	public Object getAttributeValue(int exampleIndex, int attributeIndex) {
 		return data[exampleIndex][attributeIndex];
 	}
 	
@@ -228,7 +237,7 @@ public class Data {
 		return s;
 	}
 	
-	Tuple getItemSet(int index) {
+	public Tuple getItemSet(int index) {
         Tuple tuple = new Tuple(attributeSet.length);
         
         for (int i = 0; i < attributeSet.length; i++)
@@ -239,7 +248,7 @@ public class Data {
         return tuple;
     }
 	
-	int[] sampling(int k) {
+	public int[] sampling(int k) throws OutOfRangeSampleSize {
         int[] centroidIndexes = new int[k]; //choose k random different centroids in data.
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
@@ -274,6 +283,23 @@ public class Data {
 		return true;
 	}
 	
+	private int countDistinctTuples() {
+		int count = 0;
+		
+		for(int i = 0; i < getNumberOfExamples(); i++) {
+			for(int j = i + 1; j < getNumberOfExamples(); j++) {
+				if(compare(i, j)) {
+					count++;
+				}
+			}
+		}
+		
+		count = getNumberOfExamples() - count;
+		
+		
+		return count;
+	} 
+	
 	Object computePrototype(ArraySet idList, Attribute attribute) {
 		return computePrototype(idList, (DiscreteAttribute)attribute);
 	}
@@ -295,9 +321,12 @@ public class Data {
 	    return prototype;
 	}
 	
+	
+	
 	public static void main(String[] args) {
         Data trainingSet = new Data();
         System.out.println(trainingSet);
+        
         
     }
 
