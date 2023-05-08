@@ -1,18 +1,36 @@
+package utility;
 import java.util.Arrays;
 
+/**
+ * Classe che rappresenta un array di booleani
+ */
 public class ArraySet {
 	
+	/**
+	 * array di booleani
+	 */
 	private boolean set[];
+	
+	/**
+	 * lunghezza dell'array
+	 */
 	private int size=0;
 	
-	ArraySet () {
+	
+	/**
+	 * Costruttore della classe ArraySet
+	 */
+	public ArraySet () {
 		set=new boolean[50];
 		for(int i = 0; i < set.length; i++)
 			set[i] = false;
 	}
 	
-	//return true if add is changing the arraySet
-	boolean add(int i){
+	/**
+	 * Ritorna vero se il metodo add cambia arraySet
+	 * @param i indice di posizione di arraySet
+	 */
+	public boolean add(int i){
 		if(i >= set.length)
 		{
 			//enlarge the set
@@ -30,7 +48,11 @@ public class ArraySet {
 		
 	}
 	
-	boolean delete(int i){
+	/**
+	 * Ritorna vero se l'indice di posizione è minore di size
+	 * @param i indice di posizione di arraySet
+	 */
+	public boolean delete(int i){
 		if(i < size){
 			boolean deleted = set[i];
 			set[i]=false;
@@ -38,7 +60,6 @@ public class ArraySet {
 				//update size
 				int j;
 				for(j = size-1; j >= 0 && !set[j]; j--);
-				
 				size = j+1;
 			}
 			
@@ -47,14 +68,22 @@ public class ArraySet {
 		return false;
 	}
 	
-	boolean get(int i){
+	/**
+	 * Ritorna il valore di set in posizione dell'indice i
+	 * @param i indice di posizione di arraySet
+	 */
+	public boolean get(int i){
 		return set[i];
 	}
 	
-	int[] toArray(){
+	/**
+	 * Ritorna un array di interi raffiguranti la posizione delle tuple (true) accessibili ???
+	 * @return a
+	 */
+	public int[] toArray(){
 		int a[] = new int[0];
 		for(int i = 0; i < size; i++){
-			if( get(i) ){
+			if(get(i)){
 				int temp[] = new int[a.length+1];
 				System.arraycopy(a, 0, temp, 0, a.length);
 				a = temp;

@@ -1,15 +1,30 @@
+package mining;
+
+import data.*;
+
+/*
+ * classe che au un oggetto ClusterSet sfrutta l'algorito kmeans
+ */
 public class KMeansMiner {
+	
+	/**
+	 *oggetto cluster su cui applicare kmeans
+	 */
 	 ClusterSet C;
 	
-	KMeansMiner(int k) {
+	 /**
+		 * Costruttore della classe KMeansMiner
+		 * @param k intero raffigurante la dimensione del clusterSet
+		 */
+	public KMeansMiner(int k) throws OutOfRangeSampleSize {
 		C = new ClusterSet(k);
 	}
 	
-	ClusterSet getC() {
+	public ClusterSet getC(){
 		return C;
 	}
 	
-	int kmeans(Data data) {
+	public int kmeans(Data data) throws OutOfRangeSampleSize{
 		 int numberOfIterations = 0;
 	        //STEP 1
 	        C.initializeCentroids(data);

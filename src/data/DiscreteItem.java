@@ -1,3 +1,5 @@
+package data;
+
 public class DiscreteItem extends Item{
 	
 	DiscreteItem(DiscreteAttribute attribute, String value) {
