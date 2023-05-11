@@ -3,10 +3,24 @@ package mining;
 import utility.ArraySet;
 import data.*;
 
+/**
+ *  Classe che modella il cluster
+ */
 public class Cluster {
+	
+	/**
+	 * Oggetto di Tupla
+	 */
 	private Tuple centroid;
+	
+	/**
+	 * Oggetto di Data
+	 */
 	private ArraySet clusteredData; 
 	
+	/**
+	 * Oggetto di Tupla
+	 */
 	Cluster(Tuple centroid){
 		this.centroid=centroid;
 		clusteredData=new ArraySet();

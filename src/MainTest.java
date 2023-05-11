@@ -3,9 +3,6 @@ import mining.KMeansMiner;
 import keyboardinput.Keyboard;
 
 
-
-
-
 public class MainTest {
 
 	/**
@@ -25,7 +22,7 @@ public class MainTest {
 			System.out.println("Inserisci il numero di cluster (tra 1 e 14) che verranno generati: ");			//numero di centroidi
 			k=Keyboard.readInt();	
 			try {
-				kmeans=new KMeansMiner(k);								//oggetto kmeans
+				kmeans=new KMeansMiner(k);												//oggetto kmeans
 				numIter=kmeans.kmeans(data);												//richiama il metodo kmeans
 			} catch (OutOfRangeSampleSize e) {
 				System.out.println(e.getMessage());
@@ -38,7 +35,7 @@ public class MainTest {
 			value=Keyboard.readChar();
 			if(value == 'N') System.out.println("Bye");
 					
-		} while (value=='Y');
+		} while (value == 'Y');
 		
 		
 		
