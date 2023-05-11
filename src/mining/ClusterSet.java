@@ -20,11 +20,14 @@ public class ClusterSet {
 	
 	/**
 	 * Costruttore della classe ClusterSet
+	 * @throws OutOfRangeSampleSize, eccezione scaturita qualora l'intero inserito dall'utente non rispetti il range dichiarato
 	 * @param k intero raffigurante la dimensione di C[]
 	 */
 	ClusterSet(int k) throws OutOfRangeSampleSize {
-		if(k  <= 0 || k > 14)
-			throw new OutOfRangeSampleSize();
+		if(k  < 1) 
+			throw new OutOfRangeSampleSize("Il valore inserito è troppo piccolo");
+		if(k > 14)
+			throw new OutOfRangeSampleSize("Il valore inserito è troppo grande");
 		C = new Cluster[k];
 	}
 	
@@ -45,7 +48,11 @@ public class ClusterSet {
 		return C[i];
 	}
 	
-	
+	/**
+	 * Inizializza i centroidi necessari al k-means
+	 * @param data insieme di dati da clusterizzare
+	 * @throws OutOfRangeSampleSize, eccezione scaturita qualora l'intero inserito dall'utente non rispetti il range dichiarato
+	 */
 	void initializeCentroids(Data data) throws OutOfRangeSampleSize {
 		int[] centroidIndexes = data.sampling(C.length);
        
@@ -56,6 +63,11 @@ public class ClusterSet {
 		
 	}
     
+	/**
+	 * Trova il cluster più vicino
+	 * @param tuple, tupla su cui effettuare il controllo
+	 * @return nearest, cluster più vicino
+	 */
      Cluster nearestCluster(Tuple tuple) {
     	double min = tuple.getDistance(C[0].getCentroid());
     	double tmp;
@@ -74,6 +86,11 @@ public class ClusterSet {
          return nearest;
      }
      
+     /**
+ 	 * Restituisce il cluster corrente a cui appartiene un determinato punto di dati
+ 	 * @param id, intero raffigurante la posizione
+ 	 * @return C[i], elemento i-esimo di c
+ 	 */
      Cluster currentCluster(int id) {
          for (int i = 0; i < C.length; i++) 
          {
@@ -85,6 +102,10 @@ public class ClusterSet {
          return null;
      }
 
+     /**
+ 	 * Aggiorna i centroidi 
+ 	 * @param data, dati su cui calcolare i centroidi
+ 	 */
      void updateCentroids(Data data) {
          for (int i = 0; i < C.length; i++) 
          {
@@ -92,6 +113,10 @@ public class ClusterSet {
          }
      }
 
+     /**
+  	 * Override di toString di Object, rappresenta testualmente gli elementi di C 
+  	 * @return str, stringa utilizzata
+  	 */
      public String toString() {
          String str = "";
          
@@ -103,6 +128,11 @@ public class ClusterSet {
          return str;
      }
 
+     /**
+   	 * Override di toString di Object, rappresenta testualmente gli elementi di C 
+   	 * @param data, insieme di dati
+   	 * @return str, stringa utilizzata
+   	 */
      public String toString(Data data) {
          String str = "";
          

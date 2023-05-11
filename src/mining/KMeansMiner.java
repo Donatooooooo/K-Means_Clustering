@@ -13,17 +13,27 @@ public class KMeansMiner {
 	 ClusterSet C;
 	
 	 /**
-		 * Costruttore della classe KMeansMiner
-		 * @param k intero raffigurante la dimensione del clusterSet
-		 */
+	 * Costruttore della classe KMeansMiner
+	 * @param k intero raffigurante la dimensione del clusterSet
+	 */
 	public KMeansMiner(int k) throws OutOfRangeSampleSize {
 		C = new ClusterSet(k);
 	}
 	
+	/**
+	 * Ritorna il ClusterSet dichiarato
+	 * @return C;
+	 */
 	public ClusterSet getC(){
 		return C;
 	}
 	
+	/**
+	 *  Implementa l'algoritmo K-means per la clustering dei dati
+	 * @throws OutOfRangeSampleSize, eccezione scaturita qualora l'intero inserito dall'utente non rispetti il range dichiarato
+	 * @param Data data, insieme di dati su cui applicare il k-means
+	 * @return numberOfIteraion, numero di iterazioni effettuate durante l'esecuzione del k-means.
+	 */
 	public int kmeans(Data data) throws OutOfRangeSampleSize{
 		 int numberOfIterations = 0;
 	        //STEP 1

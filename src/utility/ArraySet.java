@@ -18,7 +18,7 @@ public class ArraySet {
 	
 	
 	/**
-	 * Costruttore della classe ArraySet
+	 * Costruttore della classe ArraySet, imposta ogni posizione in false
 	 */
 	public ArraySet () {
 		set=new boolean[50];
