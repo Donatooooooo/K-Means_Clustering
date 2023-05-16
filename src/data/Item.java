@@ -1,5 +1,6 @@
 package data;
-import utility.ArraySet;
+
+import java.util.Set;
 
 public abstract class Item {
 	
@@ -26,8 +27,7 @@ public abstract class Item {
 	
 	abstract double distance(Object a); //implementazione diversa per item discreto e item continuo
 	
-	public void update(Data data, ArraySet clusteredData) {
-		
+	public void update(Data data, Set<Integer> clusteredData) {
 		value=data.computePrototype(clusteredData,attribute); 
 	}
 	
