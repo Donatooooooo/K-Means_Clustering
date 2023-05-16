@@ -1,35 +1,56 @@
 package data;
-import utility.ArraySet;
 
-public class DiscreteAttribute extends Attribute {
+import java.util.TreeSet;
+import java.util.Set;
+import  java.util.Iterator;
+
+/**
+ * Classe che modella attributi discreti.
+ */
+public class DiscreteAttribute extends Attribute implements Iterable<String> {
 	
-	private String values[];
+	/**
+	 * TreeSet di stringhe
+	 */
+	private TreeSet<String> values;
 	
+	/**
+	 * Costruttore della classe DescreteAttribute
+	 * @param name
+	 * @param index
+	 * @param values
+	 */
 	DiscreteAttribute(String name, int index, String values[]) {
 		super(name, index);
-		this.values=values;
+		this.values = new TreeSet<String>();
+		for (String s: values)
+			this.values.add(s);
 	}
 	
-	int getNumberOfDistinctValues() {
-		return values.length;
+	/**
+	 * Restitusce un iteratore
+	 */
+	public Iterator<String> iterator() {
+		return this.values.iterator();
 	}
 	
-	String getValue(int i) {
-		return values[i];
-	}
-	
-		 
-	int frequency(Data data, ArraySet idList, String v) {
+	/**
+	 * Calcola la frequenza della syringa v nel dataset.
+	 * @param data
+	 * @param idList
+	 * @param v
+	 * @return count
+	 */
+	int frequency(Data data, Set<Integer> idList, String v) {
         	int count = 0;
-        	int[] a = idList.toArray();
-        	for (int i = 0; i < a.length; i++) {
-            	if (data.getAttributeValue(a[i], this.getIndex()).equals(v))
+ 
+        	for (int i: idList) {
+            	if (data.getAttributeValue(i, this.getIndex()).equals(v))
                 	count++;
         	}
         	return count;
     	}
-		 
-		 
+
 		
 	
 	
