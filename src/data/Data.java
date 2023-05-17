@@ -40,20 +40,20 @@ public class Data {
         ex12.add("overcast");
         ex13.add("rain");
         
-        ex0.add("hot");
-        ex1.add("hot");
-        ex2.add("hot");
-        ex3.add("mild");
-        ex4.add("cool");
-        ex5.add("cool");
-        ex6.add("cool");
-        ex7.add("mild");
-        ex8.add("cool");
-        ex9.add("mild");
-        ex10.add("mild");
-        ex11.add("mild");
-        ex12.add("hot");
-        ex13.add("mild");
+        ex0.add(37.5);
+        ex1.add(38.7);
+        ex2.add(37.5);
+        ex3.add(20.5);
+        ex4.add(20.7);
+        ex5.add(21.2);
+        ex6.add(20.5);
+        ex7.add(21.2);
+        ex8.add(21.2);
+        ex9.add(19.8);
+        ex10.add(3.5);
+        ex11.add(3.6);
+        ex12.add(3.5);
+        ex13.add(3.2);
 
         ex0.add("high");
         ex1.add("high");
@@ -126,11 +126,7 @@ public class Data {
 		outLookValues[2]="sunny";
 		attributeSet.add(new DiscreteAttribute("Outlook",0, outLookValues));
 		
-		String[] temperatureValues = new String[3];
-		temperatureValues[0] = "cool";
-		temperatureValues[1] = "mild";
-		temperatureValues[2] = "hot";
-        attributeSet.add(new DiscreteAttribute("Temperature", 1, temperatureValues));
+        attributeSet.add(new ContinuousAttribute("Temperature", 1, 3.2, 38.7));
 
         String[] humidityValues = new String[2];
         humidityValues[0] = "high";
@@ -186,7 +182,12 @@ public class Data {
         
         for (Attribute a: attributeSet)
         {
-            tuple.add(new DiscreteItem((DiscreteAttribute) a, (String) data.get(index).get(a.getIndex())), a.getIndex());
+        	if (a instanceof DiscreteAttribute) { 
+        		tuple.add(new DiscreteItem((DiscreteAttribute) a, (String) data.get(index).get(a.getIndex())), a.getIndex());
+        	} else {
+        		tuple.add(new ContinuousItem((ContinuousAttribute) a, (Double) data.get(index).get(a.getIndex())), a.getIndex());
+        	}
+            
         }
         
         return tuple;
@@ -227,7 +228,11 @@ public class Data {
 	}
 	
 	Object computePrototype(Set<Integer> idList, Attribute attribute) {
-		return computePrototype(idList, (DiscreteAttribute)attribute);
+		if (attribute instanceof DiscreteAttribute) {
+			return computePrototype(idList, (DiscreteAttribute) attribute);
+		} else {
+			return computePrototype(idList, (ContinuousAttribute) attribute);
+		}
 	}
 	
 	 String computePrototype(Set<Integer> idList, DiscreteAttribute attribute) {
@@ -251,6 +256,13 @@ public class Data {
 	        
 	    return prototype;
 	}
+	 
+	 double computePrototype(Set<Integer> idList, ContinuousAttribute attribute) {
+	        double sum=0;
+	        for (int i: idList)
+	            sum+=(Double)data.get(i).get(attribute.getIndex());
+	        return sum/idList.size();
+	 }
 	
 	/**
 	 * Inner class che serve a modellare ciascuna tansizione
@@ -303,7 +315,7 @@ public class Data {
 			String s = "";
 			for(Object o: example)
 			{
-				s += (String)o + " ";
+				s += o.toString() + " ";
 			}
 			return s;
 		}

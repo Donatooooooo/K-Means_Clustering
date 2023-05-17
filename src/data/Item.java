@@ -7,7 +7,7 @@ public abstract class Item {
 	private Attribute attribute;
 	private Object value;
 	
-	Item(Attribute attribute, Object value) {
+	 Item(Attribute attribute, Object value) {
 		this.attribute = attribute;
 		this.value = value;
 	}
@@ -22,7 +22,7 @@ public abstract class Item {
 	
 	public String toString()
 	{
-		return (String) value;
+		return value.toString();
 	}
 	
 	abstract double distance(Object a); //implementazione diversa per item discreto e item continuo
