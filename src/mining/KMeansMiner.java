@@ -1,6 +1,7 @@
 package mining;
 
 import data.*;
+import java.io.*;
 
 /*
  * classe che au un oggetto ClusterSet sfrutta l'algorito kmeans
@@ -19,6 +20,21 @@ public class KMeansMiner {
 	public KMeansMiner(int k) throws OutOfRangeSampleSize {
 		C = new ClusterSet(k);
 	}
+	
+	public KMeansMiner(String fileName) throws FileNotFoundException, IOException,ClassNotFoundException
+    {
+        ObjectInputStream in=new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileName)));
+        C=(ClusterSet) in.readObject();
+        in.close();
+    }
+	
+	public void SaveKMeansMiner(String fileName) throws FileNotFoundException,IOException
+    {
+        ObjectOutputStream out=new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
+        out.writeObject(C);
+        out.close();
+    }
+
 	
 	/**
 	 * Ritorna il ClusterSet dichiarato
@@ -60,6 +76,7 @@ public class KMeansMiner {
 	        return numberOfIterations;
 		
 	}
+	
 	
 	
 	
