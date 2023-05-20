@@ -3,9 +3,9 @@ package data;
 import java.util.*;
 
 public class Data {
-	List<Example> data;
+	private List<Example> data;
 	private int numberOfExamples;
-	List<Attribute> attributeSet = new LinkedList<Attribute>();
+	private List<Attribute> attributeSet;
 	
 	public Data(){
 		
@@ -115,6 +115,7 @@ public class Data {
         tempData.add(ex12);
         tempData.add(ex13);
 
+        attributeSet = new LinkedList<Attribute>();
         data=new ArrayList<Example>(tempData);
         numberOfExamples = data.size();
 

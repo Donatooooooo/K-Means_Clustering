@@ -1,12 +1,13 @@
 package mining;
 
 import java.util.*;
+import java.io.Serializable;
 import data.*;
 
 /**
  *  Classe che modella il cluster
  */
-public class Cluster {
+public class Cluster implements Serializable {
 	
 	/**
 	 * Oggetto di Tupla

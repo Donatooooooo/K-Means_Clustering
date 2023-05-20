@@ -1,8 +1,9 @@
 package data;
 
 import java.util.Set;
+import java.io.Serializable;
 
-public abstract class Item {
+public abstract class Item implements Serializable{
 	
 	private Attribute attribute;
 	private Object value;

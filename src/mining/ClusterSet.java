@@ -1,12 +1,13 @@
 package mining;
 import data.*;
+import java.io.Serializable;
 
 /**
  * Classe raffigurante un insieme di cluster e posizione all'interno data dall'indice i  
  *
  */
 
-public class ClusterSet {
+public class ClusterSet implements Serializable{
 	
 	/**
 	 * array di oggetti cluster

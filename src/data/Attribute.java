@@ -1,9 +1,10 @@
 package data;
+import java.io.Serializable;
 
 /**
  * Classe che modella un attributo
  */
-public abstract class Attribute{
+public abstract class Attribute implements Serializable {
 	
 	/**
 	 * Nome dell'attributo
