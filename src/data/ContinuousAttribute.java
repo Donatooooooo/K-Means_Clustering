@@ -25,9 +25,8 @@ public class ContinuousAttribute extends Attribute{
 		super(name, index);
 		this.max = max;
 		this.min = min;
-	
 	}
-	
+
 	/**
 	 * Restituisce il valore normalizzato di v
 	 * @param v
@@ -36,5 +35,4 @@ public class ContinuousAttribute extends Attribute{
 	 double getScaledValue(double v) {
 		return (v - min) / (max - min);
 	}
-
 }
