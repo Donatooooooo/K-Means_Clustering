@@ -25,10 +25,6 @@ public class ClusterSet implements Serializable{
 	 * @param k intero raffigurante la dimensione di C[]
 	 */
 	ClusterSet(int k) throws OutOfRangeSampleSize {
-		if(k  < 1) 
-			throw new OutOfRangeSampleSize("Il valore inserito è troppo piccolo");
-		if(k > 14)
-			throw new OutOfRangeSampleSize("Il valore inserito è troppo grande");
 		C = new Cluster[k];
 	}
 	
@@ -147,5 +143,4 @@ public class ClusterSet implements Serializable{
          
          return str;
      }
-	
 }
