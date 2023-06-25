@@ -3,12 +3,16 @@ package server;
 import data.Data;
 import data.OutOfRangeSampleSize;
 import mining.KMeansMiner;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
+import database.DatabaseConnectionException;
+import database.EmptySetException;
+import database.NoValueException;
+
 
 public class ServerOneClient extends Thread{
 	private Socket socket;
@@ -27,54 +31,75 @@ public class ServerOneClient extends Thread{
 			int k;
 			String tabName;
 			KMeansMiner kmeans = null;
-			int command = (Integer) in.readObject();
-			Data data = new Data("localhost", "MapDB", "playtennis", "MapUser", "map");
-			switch (command) {
-			case 0:
-				tabName = (String) in.readObject();
-				System.out.println(tabName);
-				//fa ciò che deve fare
-				out.writeObject("OK");
-				break;
-			case 1:
-				k = (Integer) in.readObject();
-				int numIter = 0;
-				try {
-					kmeans=new KMeansMiner(k);
-					numIter=kmeans.kmeans(data);
-				} catch (OutOfRangeSampleSize e) {
-					System.out.println(e.getMessage());
+			Data data = null;
+			while (true) {
+				int command = (Integer) in.readObject();
+				switch (command) {
+				case 0:
+					tabName = (String) in.readObject();
+					try {
+						data = new Data("localhost", "MapDB", tabName, "MapUser", "map");
+						out.writeObject("OK");
+					} catch (final EmptySetException e) {
+						out.writeObject("\n--- Tabella vuota ---\n");
+					} catch (SQLException e) {
+						out.writeObject("\n--- Tabella non trovata ---\n");
+					} catch (DatabaseConnectionException | NoValueException e) {
+						out.writeObject(e.getMessage());
+					}
+					break;
+				case 1:
+					k = (Integer) in.readObject();
+					int numIter = 0;
+					try {
+						kmeans=new KMeansMiner(k);
+						numIter=kmeans.kmeans(data);
+						out.writeObject("OK");
+						out.writeObject(numIter);
+						out.writeObject("\n" + kmeans.getC().toString(data));
+					} catch (OutOfRangeSampleSize e) {
+						out.writeObject(e.getMessage());
+					}
+					break;
+				case 2:
+					try {
+	                    kmeans.SaveKMeansMiner("kmeans.dat");
+	                    out.writeObject("OK");
+	                } catch (FileNotFoundException e) {
+	                	out.writeObject("\n--- File non trovato ---\n");
+	                } catch (IOException e) {
+	                	out.writeObject("\n--- Errore di input ---\n");
+	                }
+					break;
+				case 3:
+					tabName = (String) in.readObject();
+					try {
+						data = new Data("localhost", "MapDB", tabName, "MapUser", "map");
+						kmeans = new KMeansMiner("kmeans.dat");
+		                out.writeObject("OK");
+						out.writeObject(kmeans.getC().toString(data));
+					} catch (EmptySetException e) {
+						out.writeObject("\n--- Tabella vuota ---\n");
+					} catch (SQLException e) {
+						out.writeObject("\n--- Tabella non trovata ---\n");
+					} catch (DatabaseConnectionException | NoValueException e) {
+						out.writeObject(e.getMessage());
+					} catch (FileNotFoundException e) {
+	                	out.writeObject("\n--- File non trovato ---\n");
+	                } catch (IOException e) {
+	                	out.writeObject("\n--- Errore di input/output ---\n");
+	                } catch (ClassNotFoundException e) {
+	                	out.writeObject("\n--- Errore di classe ---\n");
+	                }
+					break;
 				}
-				out.writeObject("OK");
-				out.writeObject("Numero di iterazione: " + numIter + "\n" + kmeans.getC().toString(data));
-				break;
-			case 2:
-				try {
-					System.out.println("AAAA");
-                    kmeans.SaveKMeansMiner("kmeans.dat");
-                    out.writeObject("OK");
-                } catch (FileNotFoundException e) {
-                    System.err.println("\nfile non trovato\n");
-                    break;
-                } catch (IOException e) {
-                    System.err.println("\nErrore di input\n");
-                    break;
-                }
-				break;
-			case 3:
-				tabName = in.readObject().toString();
-				k = (Integer) in.readObject();
-				//fa ciò che deve fare
-				out.writeObject("OK");
-				out.writeObject("OKtemp");
-				break;
 			}
-		} catch (Exception e) {
-			System.out.println("Qualsiasi eccezione: " + e.getMessage());
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("Eccezione generata");
 		} finally {
 			try {
 				socket.close();
-				System.out.println("Socket chiuso");
+				System.out.println("Socket closed");
 			} catch(IOException e) {
 				System.err.println("Socket not closed");
 			}
