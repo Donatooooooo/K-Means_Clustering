@@ -17,7 +17,7 @@ public class MainTest {
 	 * @param args
 	 */
 	private ObjectOutputStream out;
-	private ObjectInputStream in ; // stream con richieste del client
+	private ObjectInputStream in ;
 	
 	
 	public MainTest(String ip, int port) throws IOException{
@@ -27,38 +27,13 @@ public class MainTest {
 		System.out.println(socket);
 		
 		out = new ObjectOutputStream(socket.getOutputStream());
-		in = new ObjectInputStream(socket.getInputStream());	; // stream con richieste del client
+		in = new ObjectInputStream(socket.getInputStream());// stream con richieste del client
 	}
-	
-	private int menu(){
-		int answer;
-		System.out.println("Scegli una opzione");
-		do{
-			System.out.println("(1) Carica Cluster da File");
-			System.out.println("(2) Carica Dati");
-			System.out.print("Risposta:");
-			answer=Keyboard.readInt();
-		}
-		while(answer<=0 || answer>2);
-		return answer;
-		
-	}
-	
-	private String learningFromFile() throws SocketException,ServerException,IOException,ClassNotFoundException{
-		out.writeObject(3);
-		
-		System.out.print("Nome tabella:");
-		String tabName=Keyboard.readString();
-		out.writeObject(tabName);
-		System.out.print("Numero iterate:");
-		int k=Keyboard.readInt();
-		out.writeObject(k);
-		String result = (String)in.readObject();
-		if(result.equals("OK"))
-			return (String)in.readObject();
-		else throw new ServerException(result);
-		
-	}
+
+	/*
+	 * CASO 0
+	 * crea Data in base alla tabella passata in input.
+	 */
 	private void storeTableFromDb() throws SocketException,ServerException,IOException,ClassNotFoundException{
 		out.writeObject(0);
 		System.out.print("Nome tabella:");
@@ -67,8 +42,12 @@ public class MainTest {
 		String result = (String)in.readObject();
 		if(!result.equals("OK"))
 			throw new ServerException(result);
-		
 	}
+
+	/*
+	 * CASO 1
+	 * Fa i cluster dal DB.
+	 */
 	private String learningFromDbTable() throws SocketException,ServerException,IOException,ClassNotFoundException{
 		out.writeObject(1);
 		System.out.print("Numero di cluster:");
@@ -76,14 +55,18 @@ public class MainTest {
 		out.writeObject(k);
 		String result = (String)in.readObject();
 		if(result.equals("OK")){
-			System.out.println("Clustering output:\n"+in.readObject());
+			System.out.println("Numero iterazioni: "+in.readObject());
 			return (String)in.readObject();
 		}
 		else throw new ServerException(result);
 		
 		
 	}
-	
+
+	/*
+	 * CASO 2
+	 * salva i cluster su file.
+	 */
 	private void storeClusterInFile() throws SocketException,ServerException,IOException,ClassNotFoundException{
 		out.writeObject(2);
 		
@@ -93,7 +76,37 @@ public class MainTest {
 			 throw new ServerException(result);
 		
 	}
+
+	/*
+	 * CASO 3
+	 */
+	private String learningFromFile() throws SocketException,ServerException,IOException,ClassNotFoundException{
+		out.writeObject(3);
+		
+		System.out.print("Nome tabella:");
+		String tabName=Keyboard.readString();
+		out.writeObject(tabName);
+		String result = (String)in.readObject();
+		if(result.equals("OK"))
+			return (String)in.readObject();
+		else throw new ServerException(result);
+	}
+
+	private int menu(){
+		int answer;
+		System.out.println("Scegli una opzione:");
+		do{
+			System.out.println("(1) Carica Cluster da File");
+			System.out.println("(2) Carica Dati");
+			System.out.print("\nRisposta:");
+			answer=Keyboard.readInt();
+		}
+		while(answer<=0 || answer>2);
+		return answer;
+	}
+
 	public static void main(String[] args) {
+		String answer="y";
 		String ip;
 		int port;
 		if(args.length > 0) {
@@ -101,13 +114,14 @@ public class MainTest {
 			port = new Integer(args[1]).intValue();
 		}
 		else { 
-			System.out.println("Inserisci ip e port");
+			System.out.print("IP: ");
 			ip = Keyboard.readString();
+			System.out.print("PORTA: ");
 			port = Keyboard.readInt();
 		}
 		MainTest main=null;
 		try{
-			main=new MainTest(ip,port);
+			main=new MainTest(ip, port);
 			System.out.println("Connessione avvenuta");
 		}
 		catch (IOException e){
@@ -124,12 +138,10 @@ public class MainTest {
 					try {
 						String kmeans=main.learningFromFile();
 						System.out.println(kmeans);
-					}
-					catch (SocketException e) {
+					} catch (SocketException e) {
 						System.out.println(e);
 						return;
-					}
-					catch (FileNotFoundException e) {
+					} catch (FileNotFoundException e) {
 						System.out.println(e);
 						return ;
 					} catch (IOException e) {
@@ -138,83 +150,76 @@ public class MainTest {
 					} catch (ClassNotFoundException e) {
 						System.out.println(e);
 						return;
-					}
-					catch (ServerException e) {
+					} catch (ServerException e) {
 						System.out.println(e.getMessage());
 					}
-					break;
+				break;
 				case 2: // learning from db
-				
-					/*while(true){
+					while(true){
 						try{
 							main.storeTableFromDb();
 							break; //esce fuori dal while
-						}
-						
-						catch (SocketException e) {
+						} catch (SocketException e) {
 							System.out.println(e);
 							return;
-						}
-						catch (FileNotFoundException e) {
+						} catch (FileNotFoundException e) {
 							System.out.println(e);
 							return;
-							
 						} catch (IOException e) {
 							System.out.println(e);
 							return;
 						} catch (ClassNotFoundException e) {
 							System.out.println(e);
 							return;
-						}
-						catch (ServerException e) {
+						} catch (ServerException e) {
 							System.out.println(e.getMessage());
 						}
 					} //end while [viene fuori dal while con un db (in alternativa il programma termina)
-					*/	
-					char answer='y';//itera per learning al variare di k
+
+					boolean flag= true;
 					do{
 						try
 						{
 							String clusterSet=main.learningFromDbTable();
 							System.out.println(clusterSet);
-							
+
 							main.storeClusterInFile();
 							System.out.println("File salvato");
-						}
-						catch (SocketException e) {
+							flag = true;
+						} catch (SocketException e) {
 							System.out.println(e);
 							return;
-						}
-						catch (FileNotFoundException e) {
+						} catch (FileNotFoundException e) {
 							System.out.println(e);
 							return;
-						} 
-						catch (ClassNotFoundException e) {
+						} catch (ClassNotFoundException e) {
 							System.out.println(e);
 							return;
-						}catch (IOException e) {
+						} catch (IOException e) {
 							System.out.println(e);
 							return;
-						}
-						catch (ServerException e) {
+						} catch (ServerException e) {
 							System.out.println(e.getMessage());
+							flag = false;
 						}
-						System.out.print("Vuoi ripetere l'esecuzione?(y/n)");
-						answer=Keyboard.readChar();
+						if (flag) {
+							System.out.println("Vuoi ripetere l'esecuzione?(y/n)");
+							do{
+								answer=Keyboard.readString();
+							} while(!answer.matches("[y|n]"));
+						}
 					}
-					while(answer=='y');
-					break; //fine case 2
-					default:
-					System.out.println("Opzione non valida!");
+					while(answer.equals("y") || flag==false);
+				break; //fine case 2
 			}
-			
-			System.out.print("Vuoi scegliere una nuova operazione da menu?(y/n)");
-			if(Keyboard.readChar()!='y')
+
+			System.out.println("Vuoi scegliere una nuova operazione da menu?(y/n)");
+			do{
+				answer=Keyboard.readString();
+			} while(!answer.matches("[y|n]"));
+			if(answer.equals("n"))
 				break;
 			}
 		while(true);
 		}
 	}
-
-
-

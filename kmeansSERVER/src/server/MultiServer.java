@@ -5,7 +5,7 @@ import java.io.IOException;
 
 
 public class MultiServer {
-	 private static int PORT = 8083;
+	 private static int PORT;
 	 
 	 public MultiServer(int port) {
 		 MultiServer.PORT = port;
@@ -17,7 +17,7 @@ public class MultiServer {
 	}
 	 
 	 public static void main(String[] args) {
-		new MultiServer(8083);
+		new MultiServer(8082);
 	 }
 	 
 	 private void run() throws IOException {

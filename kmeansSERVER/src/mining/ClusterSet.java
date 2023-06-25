@@ -25,6 +25,9 @@ public class ClusterSet implements Serializable{
 	 * @param k intero raffigurante la dimensione di C[]
 	 */
 	ClusterSet(int k) throws OutOfRangeSampleSize {
+		if (k < 0) {
+			throw new OutOfRangeSampleSize("\n--- La dimensione non può essere negativa ---\n");
+		}
 		C = new Cluster[k];
 	}
 	
@@ -110,7 +113,7 @@ public class ClusterSet implements Serializable{
          }
      }
 
-     /**
+     /** NON VIENE MAI USATO??? da controllare
   	 * Override di toString di Object, rappresenta testualmente gli elementi di C 
   	 * @return str, stringa utilizzata
   	 */
@@ -119,11 +122,11 @@ public class ClusterSet implements Serializable{
          
          for (int i = 0; i < C.length; i++)
          {
-             str += i + ": " + C[i] + "\n";
+             str += i + ": " + C[i].toString() + " \n";
          }
          
          return str;
-     }
+     }	 
 
      /**
    	 * Override di toString di Object, rappresenta testualmente gli elementi di C 
@@ -137,7 +140,7 @@ public class ClusterSet implements Serializable{
          {
              if (C[i] != null) 
              {
-                 str += i + ": " + C[i].toString(data) + "\n";
+                 str += (i+1) + ": " + C[i].toString(data) + "\n";
              }
          }
          

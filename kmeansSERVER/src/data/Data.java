@@ -97,7 +97,7 @@ public class Data {
     public int[] sampling(int k) throws OutOfRangeSampleSize {
 
         if (k < 1 || k > data.size()) throw new OutOfRangeSampleSize
-        	("--- Valore inserito non valido, deve essere compreso tra 1 e " + data.size() + " ---\n");
+        	("\n--- Valore inserito non valido, deve essere compreso tra 1 e " + data.size() + " ---\n");
 
         int[] centroidIndexes = new int[k];
         Random rand = new Random();
