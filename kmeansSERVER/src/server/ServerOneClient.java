@@ -92,16 +92,18 @@ public class ServerOneClient extends Thread{
 	                	out.writeObject("\n--- Errore di classe ---\n");
 	                }
 					break;
+				case 4:
+					return;
 				}
 			}
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Eccezione generata");
+			System.out.println(e);
 		} finally {
 			try {
 				socket.close();
-				System.out.println("Socket closed");
+				System.out.println("+++ Socket closed +++");
 			} catch(IOException e) {
-				System.err.println("Socket not closed");
+				System.err.println("--- Socket not closed ---");
 			}
 		}
 	}
