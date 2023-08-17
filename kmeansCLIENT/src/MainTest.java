@@ -81,6 +81,11 @@ public class MainTest {
         System.out.print("Nome tabella: ");
         String tabName = Keyboard.readString();
         out.writeObject(tabName);
+        //
+        System.out.print("Numero di cluster:");
+		int k=Keyboard.readInt();
+		out.writeObject(k);
+        //
         String result = (String) in.readObject();
         if (result.equals("OK"))
             return (String) in.readObject();
@@ -99,6 +104,7 @@ public class MainTest {
             System.out.println("(2) Carica Dati");
             System.out.print("Risposta: ");
             answer = Keyboard.readInt();
+            System.out.println();
         }
         while (answer <= 0 || answer > 2);
         return answer;
@@ -130,24 +136,29 @@ public class MainTest {
             int menuAnswer = main.menu();
             switch (menuAnswer) {
             case 1:
-                try {
-                    String kmeans = main.learningFromFile();
-                    System.out.println(kmeans);
-                } catch (SocketException e) {
-                    System.out.println(e);
-                    return;
-                } catch (FileNotFoundException e) {
-                    System.out.println(e);
-                    return;
-                } catch (IOException e) {
-                    System.out.println(e);
-                    return;
-                } catch (ClassNotFoundException e) {
-                    System.out.println(e);
-                    return;
-                } catch (ServerException e) {
-                    System.out.println(e.getMessage());
-                }
+                boolean flag = true;
+                do {
+                    try {
+                        String kmeans = main.learningFromFile();
+                        System.out.println("\n" + kmeans);
+                        flag = true;
+                    } catch (SocketException e) {
+                        System.out.println(e);
+                        return;
+                    } catch (FileNotFoundException e) {
+                        System.out.println(e);
+                        return;
+                    } catch (IOException e) {
+                        System.out.println(e);
+                        return;
+                    } catch (ClassNotFoundException e) {
+                        System.out.println(e);
+                        return;
+                    } catch (ServerException e) {
+                        System.out.println(e.getMessage());
+                        flag = false;
+                    }
+                } while (!flag);
                 break;
             case 2: // learning from db
                 while (true) {
@@ -171,7 +182,6 @@ public class MainTest {
                     }
                 } //end while [viene fuori dal while con un db (in alternativa il programma termina)
 
-                boolean flag = true;
                 do {
                     try {
                         String clusterSet = main.learningFromDbTable();
@@ -202,8 +212,7 @@ public class MainTest {
                             answer = Keyboard.readString();
                         } while (!answer.matches("[y|n]"));
                     }
-                }
-                while (answer.equals("y") || flag == false);
+                } while (answer.equals("y") || !flag);
                 break; //fine case 2
             }
 

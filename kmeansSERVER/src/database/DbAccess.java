@@ -40,7 +40,7 @@ public class DbAccess {
 
         String connectionString = DBMS + "://" + SERVER + ":" + PORT + "/" + DATABASE +
             "?user=" + USER_ID + "&password=" + PASSWORD + "&serverTimezone=UTC";
-        System.out.println("+++ " + "Connessione in: " + connectionString + " +++\n");
+        System.out.println("Connessione in: " + connectionString);
         try {
             conn = DriverManager.getConnection(connectionString);
         } catch (SQLException e) {

@@ -17,7 +17,7 @@ public class MultiServer {
 	}
 	 
 	 public static void main(String[] args) {
-		new MultiServer(8082);
+		new MultiServer(8083);
 	 }
 	 
 	 private void run() throws IOException {
@@ -25,7 +25,6 @@ public class MultiServer {
 		 System.out.println("+++ Server ON +++");
 		 try {
 				while(true) {
-						// Si blocca finchè non si verifica una connessione:
 						Socket socket = s.accept();
 						try {
 								new ServerOneClient(socket);
@@ -35,7 +34,6 @@ public class MultiServer {
 				}
 			} finally {
 				s.close();
-				System.out.println("+++ Server OFF +++");
 			}
 	 }
 }
