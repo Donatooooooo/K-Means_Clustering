@@ -47,6 +47,40 @@ public class Data {
 
         }
     }
+    
+    //ACCESSO SENZA INPUT (forse migliore???)
+    public Data(String table)
+        	throws DatabaseConnectionException, SQLException, NoValueException, EmptySetException {
+
+            DbAccess db = new DbAccess();
+            db.initConnection();
+            TableData td = new TableData(db);
+            TableSchema ts = new TableSchema(db, table);
+
+            data = td.getDistinctTransazioni(table);
+            numberOfExamples = data.size();
+            attributeSet = new ArrayList < > ();
+
+            double qMIN;
+            double qMAX;
+
+            for (int i = 0; i < ts.getNumberOfAttributes(); i++) {
+                if (ts.getColumn(i).isNumber()) {
+                    qMIN = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MIN);
+                    qMAX = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MAX);
+                    attributeSet.add(new ContinuousAttribute(ts.getColumn(i).getColumnName(), i, qMIN, qMAX));
+                } else {
+                    HashSet < Object > distValues = (HashSet < Object > ) td.getDistinctColumnValues(table, ts.getColumn(i));
+                    HashSet < String > values = new HashSet < > ();
+
+                    for (Object o: distValues)
+                        values.add((String) o);
+
+                    attributeSet.add(new DiscreteAttribute(ts.getColumn(i).getColumnName(), i, values));
+                }
+
+            }
+        }
 
     public int getNumberOfExamples() {
         return numberOfExamples;
@@ -97,7 +131,7 @@ public class Data {
     public int[] sampling(int k) throws OutOfRangeSampleSize {
 
         if (k < 1 || k > data.size()) throw new OutOfRangeSampleSize
-        	("\n--- Valore inserito non valido, deve essere compreso tra 1 e " + data.size() + " ---\n");
+        	("\n--- Valore inserito non valido: deve essere compreso tra 1 e " + data.size() + " ---\n");
 
         int[] centroidIndexes = new int[k];
         Random rand = new Random();

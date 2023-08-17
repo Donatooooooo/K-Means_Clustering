@@ -26,7 +26,7 @@ public class ClusterSet implements Serializable{
 	 */
 	ClusterSet(int k) throws OutOfRangeSampleSize {
 		if (k < 0) {
-			throw new OutOfRangeSampleSize("\n--- La dimensione non può essere negativa ---\n");
+			throw new OutOfRangeSampleSize("\n--- Valore inserito non valido: non può essere negativo ---\n");
 		}
 		C = new Cluster[k];
 	}
