@@ -6,31 +6,45 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
-
 import keyboardinput.Keyboard;
 
-public class MainTest {
+/**
+ * Classe che implementa il client per il programma di clustering.
+ */
+class MainTest {
 
     /**
-     * @param args
+     * Stream di output verso il server.
      */
     private ObjectOutputStream out;
+    /**
+     * Stream di input dal server.
+     */
     private ObjectInputStream in ;
 
+    /**
+     * Costruttore della classe che inizializza gli stream di input e output.
+     * @param ip Indirizzo ip del server.
+     * @param port Porta del server.
+     * @throws IOException Eccezione lanciata in caso di errore di connessione.
+     */
     public MainTest(String ip, int port) throws IOException {
-        InetAddress addr = InetAddress.getByName(ip); //ip
+        InetAddress addr = InetAddress.getByName(ip);
         System.out.println("\nINFO DI CONNESSIONE:");
         System.out.println("addr = " + addr);
-        Socket socket = new Socket(addr, port); //Port
+        Socket socket = new Socket(addr, port);
         System.out.println(socket);
-
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream()); // stream con richieste del client
     }
 
-    /*
-     * CASO 0
-     * crea Data in base alla tabella passata in input.
+    /**
+     * Metdo che crea Data in base alla 
+     * tabella passata in input. (CASO 0)
+     * @throws SocketException Eccezione lanciata in caso di errore di connessione.
+     * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
+     * @throws IOException Eccezione lanciata in caso di errore di I/O.
+     * @throws ClassNotFoundException Eccezione lanciata in caso di errore di caricamento di una classe.
      */
     private void storeTableFromDb() throws SocketException, ServerException, IOException, ClassNotFoundException {
         out.writeObject(0);
@@ -42,9 +56,14 @@ public class MainTest {
             throw new ServerException(result);
     }
 
-    /*
-     * CASO 1
-     * Fa i cluster dal DB.
+    /**
+     * Metodo che crea i cluster in base alla 
+     * tabella passata in input. (CASO 1)
+     * @throws SocketException Eccezione lanciata in caso di errore di connessione.
+     * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
+     * @throws IOException Eccezione lanciata in caso di errore di I/O.
+     * @throws ClassNotFoundException Eccezione lanciata in caso di errore di caricamento di una classe.
+     * @return Stringa che rappresenta i cluster.
      */
     private String learningFromDbTable() throws SocketException, ServerException, IOException, ClassNotFoundException {
         out.writeObject(1);
@@ -59,43 +78,54 @@ public class MainTest {
 
     }
 
-    /*
-     * CASO 2
-     * salva i cluster su file.
+    /**
+     * Metodo che salva i cluster su file.  (CASO 2)
+     * @throws SocketException Eccezione lanciata in caso di errore di connessione.
+     * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
+     * @throws IOException Eccezione lanciata in caso di errore di I/O.
+     * @throws ClassNotFoundException Eccezione lanciata in caso di errore di caricamento di una classe.
      */
     private void storeClusterInFile() throws SocketException, ServerException, IOException, ClassNotFoundException {
         out.writeObject(2);
-
         String result = (String) in.readObject();
         if (!result.equals("OK"))
             throw new ServerException(result);
-
     }
 
-    /*
-     * CASO 3
+    /**
+     * Metodo che legge i cluster da file. (CASO 3)
+     * @throws SocketException Eccezione lanciata in caso di errore di connessione.
+     * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
+     * @throws IOException Eccezione lanciata in caso di errore di I/O.
+     * @throws ClassNotFoundException Eccezione lanciata in caso di errore di caricamento di una classe.
+     * @return Stringa che rappresenta i cluster.
      */
     private String learningFromFile() throws SocketException, ServerException, IOException, ClassNotFoundException {
         out.writeObject(3);
-
         System.out.print("Nome tabella: ");
         String tabName = Keyboard.readString();
         out.writeObject(tabName);
-        //
         System.out.print("Numero di cluster:");
 		int k=Keyboard.readInt();
 		out.writeObject(k);
-        //
         String result = (String) in.readObject();
         if (result.equals("OK"))
             return (String) in.readObject();
         else throw new ServerException(result);
     }
 
+    /**
+     * Metodo che chiude la connessione con il server.
+     * @throws IOException Eccezione lanciata in caso di errore di I/O.
+     */
     private void closeConnection() throws IOException{ 
        out.writeObject(4);
     }
 
+    /**
+     * Metodo che stampa il menu e legge la risposta dell'utente.
+     * @return Risposta dell'utente.
+     */
     private int menu() {
         int answer;
         System.out.println("Scegli una opzione:");
@@ -110,6 +140,10 @@ public class MainTest {
         return answer;
     }
 
+    /**
+     * Metodo main che crea un'istanza della classe MainTest e 
+     * gestisce le operazioni del client.
+     */
     public static void main(String[] args) {
         String answer = "y";
         String ip;
@@ -215,7 +249,6 @@ public class MainTest {
                 } while (answer.equals("y") || !flag);
                 break; //fine case 2
             }
-
             System.out.println("Vuoi scegliere una nuova operazione da menu?(y/n)");
             do {
                 answer = Keyboard.readString();

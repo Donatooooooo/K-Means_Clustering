@@ -5,20 +5,21 @@ import java.util.Set;
 import java.util.Iterator;
 
 /**
- * Classe che modella attributi discreti.
+ * Classe concreta che estende la classe Attribute e rappresenta un attributo discreto (categorico).
  */
-public class DiscreteAttribute extends Attribute {
+class DiscreteAttribute extends Attribute implements Iterable < String >{
 
     /**
-     * TreeSet di stringhe
+     * TreeSet di stringhe che rappresenta i valori che l'attributo può assumere.
      */
     private TreeSet < String > values;
 
     /**
-     * Costruttore della classe DescreteAttribute
-     * @param name
-     * @param index
-     * @param values
+     * Costruttore della classe che inizializza gli attributi della classe.
+     * Invoca il costruttore della superclasse.
+     * @param name Nome dell'attributo.
+     * @param index Indice dell'attributo.
+     * @param values Insieme di stringhe che rappresentano i valori che l'attributo può assumere.
      */
     DiscreteAttribute(String name, int index, Set < String > values) {
         super(name, index);
@@ -28,27 +29,38 @@ public class DiscreteAttribute extends Attribute {
     }
 
     /**
-     * Restitusce un iteratore
+     * Metodo che restituisce un iteratore per utilizzabile sulla struttura TreeSet di stringhe.
+     * @return Iteratore.
      */
+    @Override
     public Iterator < String > iterator() {
         return values.iterator();
     }
 
     /**
-     * Calcola la frequenza della syringa v nel dataset.
-     * @param data
-     * @param idList
-     * @param v
-     * @return count
+     * Metodo che restituisce il numero di valori distinti che l'attributo può assumere.
+     * @return Numero di valori discreti nel dominio dell'attributo.
+     */
+    int getNumberOfDistinctValues() {
+        return values.size();
+    }
+
+    
+    /**
+     * Metodo che determina il numero di volte che il valore discreto compare 
+     * in corrispondenza dell'attributo corrente (indice di colonna) negli
+	 * esempi memorizzati in data e indicizzate (per riga) da idList.
+     * @param data oggetto di tipo Data.
+     * @param idList l'insieme degli indici di riga di alcune tuple memorizzate in data.
+     * @param v valore dell'attributo.
+     * @return Numero di occorenze del valore discreto.
      */
     int frequency(Data data, Set < Integer > idList, String v) {
         int count = 0;
-
         for (int i: idList) {
             if (data.getAttributeValue(i, this.getIndex()).equals(v))
                 count++;
         }
-        
         return count;
     }
 }

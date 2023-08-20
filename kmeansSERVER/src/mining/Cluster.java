@@ -6,9 +6,10 @@ import java.io.Serializable;
 import data.*;
 
 /**
- *  Classe che modella il cluster
+ * Classe concreta che implementa l'interfaccia Serializable
+ * e modella un cluster.
  */
-public class Cluster implements Serializable {
+class Cluster implements Serializable {
 
     /**
      * Oggetto di Tupla
@@ -16,12 +17,13 @@ public class Cluster implements Serializable {
     private Tuple centroid;
 
     /**
-     * Oggetto di Data
+     * Oggetto che rappresenta un insieme di interi
      */
     private Set < Integer > clusteredData;
 
     /**
-     * Oggetto di Tupla
+     * Costruttore che assegna il centroide e crea un insieme di interi.
+     * @param centroid centroide del cluster
      */
     Cluster(Tuple centroid) {
         this.centroid = centroid;
@@ -29,57 +31,80 @@ public class Cluster implements Serializable {
 
     }
 
+    /**
+     * Metodo che restituisce il centroide del cluster.
+     * @return Centroide del cluster.
+     */
     Tuple getCentroid() {
         return centroid;
     }
 
+    /**
+     * Metodo che assegna il centroide del cluster.
+     * @param data Riferimento all'oggetto matrice.
+     */
     void computeCentroid(Data data) {
         for (int i = 0; i < centroid.getLength(); i++)
             centroid.get(i).update(data, clusteredData);
     }
-    
-    //return true if the tuple is changing cluster
+
+    /**
+	 * Metodo che aggiunge una tupla al Cluster.
+	 * @param id Identificativo da inserire in clusteredData.
+	 * @return Valore booleano se la tupla è stata inserita.
+	 */
     boolean addData(int id) {
         return clusteredData.add(id);
     }
 
-    //verifica se una transazione � clusterizzata nell'array corrente
+    /**
+	 * Metodo che verifica se una transazione è clusterizzata nell'array corrente.
+	 * @param id Identificatore della tupla di cui si vuole effettuare la verifica.
+	 * @return Valore booleano se è presente.
+	 */
     boolean contain(int id) {
         return clusteredData.contains(id);
     }
 
-    //remove the tuplethat has changed the cluster
+    /**
+	 * Metodo che rimuove la tupla che ha cambiato il cluster.
+	 * @param id Identificatore della tupla da rimuovere.
+	 */
     void removeTuple(int id) {
         clusteredData.remove(id);
     }
 
+    /**
+	 * Metodo che restituisce una stringa contenente il solo centroide del Custer.
+	 * @return Stringa contenente il centroide.
+	 */
+	@Override
     public String toString() {
         String str = "Centroid=(";
-        
         for (int i = 0; i < centroid.getLength(); i++) {
             str += centroid.get(i);
             if (i < centroid.getLength() - 1) {
                 str += " ";
             }       	
         }
-
         str += ")";
-        
         return str;
     }
 
+    /**
+	 * Metodo che restituisce una stringa contenente il risultato della clusterizzazione.
+	 * @param data Riferimento all'oggetto matrice.
+	 * @return Stringa contenente il risultato della clusterizzazione.
+	 */
     public String toString(Data data) {
         String str = "Centroid = (";
-
         for (int i = 0; i < centroid.getLength(); i++) {
             str += centroid.get(i);
             if (i < centroid.getLength() - 1) {
                 str += " ";
             }
         }
-
         str += ")\nExamples:\n";
-
         for (int i : clusteredData) {
             str += "[";
             for (int j = 0; j < data.getNumberOfExplanatoryAttributes(); j++) {
@@ -90,9 +115,7 @@ public class Cluster implements Serializable {
             }
             str += "] dist=" + getCentroid().getDistance(data.getItemSet(i)) + "\n";
         }
-
         str += "AvgDistance=" + getCentroid().avgDistance(data, clusteredData) + "\n";
-
         return str;
     }
 }

@@ -1,36 +1,39 @@
 package data;
 
 /**
- * Classe che modella Attributi continui
+ * Classe concreta che estende la classe Attribute e modella un attributo continuo (numerico). 
+ * Tale classe include i metodi per la "normalizzazione" del dominio dell'attributo nell'intervallo [0,1]
+ * al fine da rendere confrontabili attributi aventi domini diversi.
  */
-public class ContinuousAttribute extends Attribute{
+class ContinuousAttribute extends Attribute{
 
 	/**
-	 * Valore massimo
+	 * Estremo superiore del dominio che l'attributo può assumere.
 	 */
 	private double max;
 	/**
-	 * Valore minimi
+	 * Estremo inferiore del dominio che l'attributo può assumere.
 	 */
 	private double min;
 	
 	/**
-	 * Costruttore della classe ContinuousAttribute
-	 * @param name
-	 * @param index
-	 * @param min
-	 * @param max
+	 * Costruttore della classe che inizializza gli attributi della classe.
+	 * Invoca il costruttore della superclasse.
+	 * @param name Nome dell'attributo.
+	 * @param index Indice dell'attributo.
+	 * @param min Valore minimo dell'intervallo del dominio che l'attributo può assumere.
+	 * @param max Valore massimo dell'intervallo del dominio che l'attributo può assumere.
 	 */
 	ContinuousAttribute(String name, int index, double min, double max) {
-		super(name, index);
+		super(name, index); 
 		this.max = max;
 		this.min = min;
 	}
 
 	/**
-	 * Restituisce il valore normalizzato di v
-	 * @param v
-	 * @return v normalizzato
+	 * Metodo che calcola e restituisce il valore normalizzato del parametro.
+	 * @param v Valore dell'attributo da normalizzare.
+	 * @return Valore normalizzato dell'attributo.
 	 */
 	 double getScaledValue(double v) {
 		return (v - min) / (max - min);

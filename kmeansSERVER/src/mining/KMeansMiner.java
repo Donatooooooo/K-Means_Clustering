@@ -4,52 +4,70 @@ import data.*;
 import java.io.*;
 
 /*
- * classe che au un oggetto ClusterSet sfrutta l'algorito kmeans
+ * Classe concrete che implementa Serializable e che
+ * implementa l'algoritmo K-means per la clustering dei dati.
  */
-public class KMeansMiner {
+public class KMeansMiner implements Serializable{
 
     /**
-     *oggetto cluster su cui applicare kmeans
+     * Oggetto cluster su cui applicare kmeans.
      */
-    ClusterSet C;
+    private ClusterSet C;
 
     /**
-     * Costruttore della classe KMeansMiner
-     * @param k intero raffigurante la dimensione del clusterSet
+     * Costruttore della classe che inizializza il ClusterSet C
+     * @param k Intero che rappresenta la dimensione del ClusterSet.
+     * @throws OutOfRangeSampleSize Eccezione scaturita qualora l'intero 
+     * inserito dall'utente non rispetti il range dichiarato.
      */
     public KMeansMiner(int k) throws OutOfRangeSampleSize {
         C = new ClusterSet(k);
     }
 
+    /**
+     * Costruttore che apre il file identificato da fileName,
+     * legge il ClusterSet e lo assegna a C.
+     * @param fileName Nome del file da aprire.
+     * @throws FileNotFoundException Eccezione scaturita qualora il file non venga trovato.
+     * @throws IOException Eccezione scaturita qualora si verifichino errori di input/output.
+     * @throws ClassNotFoundException Eccezione scaturita qualora la classe non venga trovata.
+     */
     public KMeansMiner(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(
-									        		new BufferedInputStream(
-									        				new FileInputStream(fileName)));
+        ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileName)));
         C = (ClusterSet) in.readObject();
         in.close();
     }
 
+    /**
+     * Metodo che apre il file identificato da fileName,
+     * e salva il ClusterSet C nel file.
+     * @param fileName Nome del file da aprire.
+     * @throws FileNotFoundException Eccezione scaturita qualora il file non venga trovato.
+     * @throws IOException Eccezione scaturita qualora si verifichino errori di input/output.
+     */
     public void SaveKMeansMiner(String fileName) throws FileNotFoundException, IOException {
-        ObjectOutputStream out = new ObjectOutputStream(
-										        		new BufferedOutputStream(
-										        				new FileOutputStream(fileName)));
+        ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
         out.writeObject(C);
         out.close();
     }
 
     /**
-     * Ritorna il ClusterSet dichiarato
-     * @return C;
+     * Metodo che restituisce il ClusterSet C.
+     * @return ClusterSet.
      */
     public ClusterSet getC() {
         return C;
     }
 
     /**
-     *  Implementa l'algoritmo K-means per la clustering dei dati
-     * @throws OutOfRangeSampleSize, eccezione scaturita qualora l'intero inserito dall'utente non rispetti il range dichiarato
-     * @param Data data, insieme di dati su cui applicare il k-means
-     * @return numberOfIteraion, numero di iterazioni effettuate durante l'esecuzione del k-means.
+     * Metodo che implementa l'algoritmo K-means per la clustering dei dati, eseguendo i seguenti passi:
+     * 1) Scelta casuale di centroidi per k cluster;
+	 * 2) Assegnazione di ciascuna riga della matrice al cluster avente centroide più vicino all'esempio;
+	 * 3) Calcolo dei nuovi centroidi per ciascun cluster;
+	 * 4) Ripete i passi 2 e 3 finchè due iterazioni consecutive non restituiscono centroidi uguali.
+     * @throws OutOfRangeSampleSize Eccezione scaturita qualora l'intero inserito dall'utente non rispetti il range dichiarato.
+     * @param Data Insieme di dati su cui applicare il k-means.
+     * @return Numero di iterazioni effettuate durante l'esecuzione del k-means.
      */
     public int kmeans(Data data) throws OutOfRangeSampleSize {
         int numberOfIterations = 0;
@@ -74,7 +92,6 @@ public class KMeansMiner {
             //STEP 3
             C.updateCentroids(data);
         } while (changedCluster);
-
         return numberOfIterations;
     }
 }

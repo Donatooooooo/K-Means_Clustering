@@ -13,13 +13,35 @@ import database.DatabaseConnectionException;
 import database.EmptySetException;
 import database.NoValueException;
 
-
+/** 
+ * Classe concreta che estende Thread e gestisce il comportamento
+ * del server in attesa di richieste di connessione da parte dei client.
+ */
 public class ServerOneClient extends Thread{
+	/**
+	 * Socket per la comunicazione con il client.
+	 */
 	private Socket socket;
+	/**
+	 * Stream di input.
+	 */
 	private ObjectInputStream in;
+	/**
+	 * Stream di output.
+	 */
 	private ObjectOutputStream out;
+	/**
+	 * Oggetto di tipo KMeansMiner.
+	 */
 	private KMeansMiner kmeans;
 	
+	/**
+	 * Costruttore della classe che inizializza 
+	 * gli attributi socket, gli stream di input e output
+	 * e avvia il thread.
+	 * @param s Socket per la comunicazione con il client.
+	 * @throws IOException Eccezione di I/O.
+	 */
 	public ServerOneClient(Socket s) throws IOException {
 		socket = s;
 		in = new ObjectInputStream(socket.getInputStream());
@@ -27,13 +49,15 @@ public class ServerOneClient extends Thread{
 		start();
 	}
 	
+	/**
+	 * Metodo che esegue la richiesta del client.
+	 */
+	@Override
 	public void run() {
 		String tabName = null;
 		Data data = null;
 		int k = 0;
-		
 		String tn = "\n[" + getName() + "] ";
-		
 		try {
 			while (true) {
 				int command = (Integer) in.readObject();

@@ -1,13 +1,15 @@
 package data;
 
 /**
- * Classe che modella l'eccezione OutOfRangeSampleSize, estende la superclasse Exception
+ * Classe concreta che estende la superclasse Exception, 
+ * modella l'eccezione OutOfRangeSampleSize.
  */
+
 public class OutOfRangeSampleSize extends Exception{
 
 	/**
-	 * Costruttore della classe, richiama il costruttore della superclasse passando il paramentro 
-	 * @param stringa txt raffigurante un messaggio
+	 * Costruttore della classe, richiama il costruttore della superclasses Exception. 
+	 * @param txt Messaggio di errore.
 	 */
 	 public OutOfRangeSampleSize(String txt) {
 		super(txt);

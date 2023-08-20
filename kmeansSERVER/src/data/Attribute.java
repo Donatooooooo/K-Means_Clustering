@@ -2,49 +2,50 @@ package data;
 import java.io.Serializable;
 
 /**
- * Classe che modella un attributo
+ * Classe astratta che modella l'entità attributo.
  */
-public abstract class Attribute implements Serializable {
+abstract class Attribute implements Serializable {
 	
 	/**
-	 * Nome dell'attributo
+	 * Nome simbolico dell'attributo.
 	 */
 	private String name;
 	/**
-	 * Indice dell'attributo
+	 * Indice dell'attributo.
 	 */
 	private int index;
 	
 	/**
-	 * Costruttore della classe Attribute
-	 * @param name
-	 * @param index
+	 * Costruttore di classe che inizializza gli attributi name e index.
+	 * @param name nome dell'attributo.
+	 * @param index indice dell'attributo.
 	 */
 	Attribute(String name, int index) {
-		this.name=name;
-		this.index=index;
+		this.name = name;
+		this.index = index;
 	}
 	
 	/**
-	 * Restituisce il nome dell'attributo
-	 * @return name
+	 * Metodo che restituisce il nome dell'attributo.
+	 * @return Nome dell'attributo.
 	 */
 	String getName() {
 		return name;
 	}
 	
 	/**
-	 * Restituiscel'indice dell'attributo
-	 * @return Index
+	 * Metodo che restituisce l'indice dell'attributo.
+	 * @return Indice dell'attributo.
 	 */
 	int getIndex() {
 		return index;
 	}
 	
 	/**
-	 * Restituisce la stringa name
-	 * @return name
+	 * Metodo che restituisce una stringa che rappresenta l'attributo.
+	 * @return Stringa contenente il nome dell'attributo.
 	 */
+	@Override
 	public String toString() {
 		return name; 
 	}

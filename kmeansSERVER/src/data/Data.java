@@ -9,27 +9,50 @@ import java.util.Iterator;
 import java.sql.SQLException;
 import database.*;
 
+/**
+ * Classe concreta per modellare l'insieme di transazioni (o tuple).
+ */
 public class Data {
 
+    /**
+     * Lista di tipo Example dove ogni riga modella una transazione (o tupla).
+     */
     private List < Example > data;
+
+    /**
+     * Cardinalità dell'insieme di transazioni (numero di righe in data).
+     */
     private int numberOfExamples;
+
+    /**
+     * Lista di tipo Attribute che rappresenta gli attributi di ciascuna tupla.
+     */
     private List < Attribute > attributeSet;
 
+    /**
+     * Costruttore della classe che inizializza 
+     * la matrice con tuple del database.
+     * @param server Nome del server.
+     * @param database Nome del database.
+     * @param table Nome della tabella.
+     * @param userID Nome utente.
+     * @param psw Password.
+     * @throws DatabaseConnectionException Eccezione lanciata quando si verifica un errore durante la connessione al database.
+     * @throws SQLException Eccezione lanciata quando si verifica un errore durante l'accesso al database.
+     * @throws NoValueException Eccezione lanciata quando non è presente alcun valore.
+     * @throws EmptySetException Eccezione lanciata quando la tabella è vuota.
+     */
     public Data(String server, String database, String table, String userID, String psw)
     	throws DatabaseConnectionException, SQLException, NoValueException, EmptySetException {
-
         DbAccess db = new DbAccess(server, database, userID, psw);
         db.initConnection();
         TableData td = new TableData(db);
         TableSchema ts = new TableSchema(db, table);
-
         data = td.getDistinctTransazioni(table);
         numberOfExamples = data.size();
         attributeSet = new ArrayList < > ();
-
         double qMIN;
         double qMAX;
-
         for (int i = 0; i < ts.getNumberOfAttributes(); i++) {
             if (ts.getColumn(i).isNumber()) {
                 qMIN = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MIN);
@@ -38,10 +61,8 @@ public class Data {
             } else {
                 HashSet < Object > distValues = (HashSet < Object > ) td.getDistinctColumnValues(table, ts.getColumn(i));
                 HashSet < String > values = new HashSet < > ();
-
                 for (Object o: distValues)
                     values.add((String) o);
-
                 attributeSet.add(new DiscreteAttribute(ts.getColumn(i).getColumnName(), i, values));
             }
 
@@ -49,63 +70,88 @@ public class Data {
     }
     
     //ACCESSO SENZA INPUT (forse migliore???)
-    public Data(String table)
-        	throws DatabaseConnectionException, SQLException, NoValueException, EmptySetException {
 
-            DbAccess db = new DbAccess();
-            db.initConnection();
-            TableData td = new TableData(db);
-            TableSchema ts = new TableSchema(db, table);
-
-            data = td.getDistinctTransazioni(table);
-            numberOfExamples = data.size();
-            attributeSet = new ArrayList < > ();
-
-            double qMIN;
-            double qMAX;
-
-            for (int i = 0; i < ts.getNumberOfAttributes(); i++) {
-                if (ts.getColumn(i).isNumber()) {
-                    qMIN = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MIN);
-                    qMAX = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MAX);
-                    attributeSet.add(new ContinuousAttribute(ts.getColumn(i).getColumnName(), i, qMIN, qMAX));
-                } else {
-                    HashSet < Object > distValues = (HashSet < Object > ) td.getDistinctColumnValues(table, ts.getColumn(i));
-                    HashSet < String > values = new HashSet < > ();
-
-                    for (Object o: distValues)
-                        values.add((String) o);
-
-                    attributeSet.add(new DiscreteAttribute(ts.getColumn(i).getColumnName(), i, values));
-                }
-
+    /**
+     * Costruttore della classe che inizializza 
+     * la matrice con tuple del database.
+     * @param table Nome della tabella.
+     * @throws DatabaseConnectionException Eccezione lanciata quando si verifica un errore durante la connessione al database.
+     * @throws SQLException Eccezione lanciata quando si verifica un errore durante l'accesso al database.
+     * @throws NoValueException Eccezione lanciata quando non è presente alcun valore.
+     * @throws EmptySetException Eccezione lanciata quando la tabella è vuota.
+     */
+    public Data(String table) throws DatabaseConnectionException, SQLException, NoValueException, EmptySetException {
+        DbAccess db = new DbAccess();
+        db.initConnection();
+        TableData td = new TableData(db);
+        TableSchema ts = new TableSchema(db, table);
+        data = td.getDistinctTransazioni(table);
+        numberOfExamples = data.size();
+        attributeSet = new ArrayList < > ();
+        double qMIN;
+        double qMAX;
+        for (int i = 0; i < ts.getNumberOfAttributes(); i++) {
+            if (ts.getColumn(i).isNumber()) {
+                qMIN = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MIN);
+                qMAX = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MAX);
+                attributeSet.add(new ContinuousAttribute(ts.getColumn(i).getColumnName(), i, qMIN, qMAX));
+            } else {
+                HashSet < Object > distValues = (HashSet < Object > ) td.getDistinctColumnValues(table, ts.getColumn(i));
+                HashSet < String > values = new HashSet < > ();
+                for (Object o: distValues)
+                    values.add((String) o);
+                attributeSet.add(new DiscreteAttribute(ts.getColumn(i).getColumnName(), i, values));
             }
         }
+    }
 
+    /**
+     * Metodo che restituisce la cardinalità dell'insieme di transazioni.
+     * @return Cardinalità dell'insieme di transazioni.
+     */
     public int getNumberOfExamples() {
         return numberOfExamples;
     }
 
+    /**
+	 * Metodo che restituisce la dimensione dell'insieme degli attributi.
+	 * @return Cardinalità dell'insieme di attributi.
+	 */
     public int getNumberOfExplanatoryAttributes() {
         return attributeSet.size();
     }
 
+    /**
+     * Metodo che restituisce il valore dell'attributo alla colonna 
+     * specificata in posizione attributeIndex e nella riga in posizione exampleIndex.
+     * @param exampleIndex Indice di riga.
+     * @param attributeIndex Indice di colonna.
+     * @return Valore della matrice alla riga e colonna specificate.
+     */
     public Object getAttributeValue(int exampleIndex, int attributeIndex) {
         return data.get(exampleIndex).get(attributeIndex);
     }
 
+    /**
+     * Metodo che restituisce l'attributo 
+     * @param index Indice dell'attributo.
+     * @return Attributo alla colonna specificata.
+     */
     Attribute getAttribute(int index) {
         return attributeSet.get(index);
     }
 
+    /**
+     * Metodo che crea una stringa in cui memorizza lo schema 
+     * della tabella e le transazioni memorizzate in data, 
+     * opportunamente enumerate. 
+     * @return Stringa che modella lo stato dell'oggetto.
+     */
     public String toString() {
-
         String s = new String(" ");
         for (Attribute i: attributeSet)
             s += i.getName() + " ";
-
         s += "\n";
-
         int i = 1;
         for (Example ex: data) {
             s += i + ": " + ex.toString() + "\n";
@@ -114,34 +160,39 @@ public class Data {
         return s;
     }
 
+    /**
+     * Metodo che crea e restituisce un oggetto di Tuple che modella 
+     * come sequenza di coppie Attributo-valore la i-esima riga in data.
+     * @param index Indice della riga.
+     * @return Tupla che modella la riga specificata.
+     */
     public Tuple getItemSet(int index) {
-
         Tuple tuple = new Tuple(attributeSet.size());
-
         for (Attribute a: attributeSet) {
             if (a instanceof DiscreteAttribute)
                 tuple.add(new DiscreteItem((DiscreteAttribute) a, (String) data.get(index).get(a.getIndex())), a.getIndex());
             else
                 tuple.add(new ContinuousItem((ContinuousAttribute) a, (Double) data.get(index).get(a.getIndex())), a.getIndex());
         }
-
         return tuple;
     }
 
+    /**
+     * Metodo che restituisce un array di interi che rappresenta
+     * gli indici in data per le tuple inizialmente selezionate come centroidi.
+     * @param k Numero di cluster da generare.
+     * @return Array di k interi.
+     * @throws OutOfRangeSampleSize Eccezione lanciata quando il valore inserito non è compreso tra 1 e il numero di righe in data.
+     */
     public int[] sampling(int k) throws OutOfRangeSampleSize {
-
         if (k < 1 || k > data.size()) throw new OutOfRangeSampleSize
         	("\n--- Valore inserito non valido: deve essere compreso tra 1 e " + data.size() + " ---\n");
-
         int[] centroidIndexes = new int[k];
         Random rand = new Random();
-
         rand.setSeed(System.currentTimeMillis());
-
         for (int i = 0; i < k; i++) {
             int c;
             boolean found = false;
-
             do {
                 found = false;
                 c = rand.nextInt(getNumberOfExamples());
@@ -151,36 +202,50 @@ public class Data {
                         break;
                     }
             } while (found);
-
             centroidIndexes[i] = c;
         }
         return centroidIndexes;
     }
 
+    /**
+     * Metodo che restituisce true se le tuple in posizione i e j
+     * hanno gli stessi valori per tutti gli attributi, false altrimenti.
+     * @param i indice della tupla da confrontare.
+     * @param j indice della tupla da confrontare.
+     * @return true se le tuple in posizione i e j hanno gli stessi 
+     * valori per tutti gli attributi, false altrimenti.
+     */
     private boolean compare(int i, int j) {
-
         for (Attribute a: attributeSet)
             if (!data.get(i).get(a.getIndex()).equals(data.get(j).get(a.getIndex())))
                 return false;
-
         return true;
     }
 
+    /**
+     * Metodo che restituisce il valore del centroide rispetto all'attributo specificato.
+     * @param idList Lista di interi che rappresenta gli indici di riga delle tuple.
+     * @param attribute Attributo (discreto o continuo) di cui calcolare il centroide.
+     * @return Valore centroide rispetto all'attributo specificato.
+     */
     Object computePrototype(Set < Integer > idList, Attribute attribute) {
-
         if (attribute instanceof DiscreteAttribute)
             return computePrototype(idList, (DiscreteAttribute) attribute);
         else
             return computePrototype(idList, (ContinuousAttribute) attribute);
     }
 
+    /**
+     * Metodo che restituisce il valore del centroide rispetto all'attributo specificato.
+     * @param idList Lista di interi che rappresenta gli indici di riga delle tuple.
+     * @param attribute Attributo discreto di cui calcolare il centroide.
+     * @return Valore centroide rispetto all'attributo specificato.
+     */
     String computePrototype(Set < Integer > idList, DiscreteAttribute attribute) {
-
         Iterator < String > i = attribute.iterator();
         String prototype = i.next();
         int max = attribute.frequency(this, idList, prototype);
         int tmp;
-
         String temp;
         while (i.hasNext()) {
             temp = i.next();
@@ -190,10 +255,15 @@ public class Data {
                 prototype = temp;
             }
         }
-
         return prototype;
     }
 
+    /**
+     * Metodo che restituisce il valore del centroide rispetto all'attributo specificato.
+     * @param idList Lista di interi che rappresenta gli indici di riga delle tuple.
+     * @param attribute Attributo continuo di cui calcolare il centroide.
+     * @return Valore centroide rispetto all'attributo specificato.
+     */
     double computePrototype(Set < Integer > idList, ContinuousAttribute attribute) {
         double sum = 0;
         for (int i: idList)
