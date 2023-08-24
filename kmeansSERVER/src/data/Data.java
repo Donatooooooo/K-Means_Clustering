@@ -31,49 +31,7 @@ public class Data {
 
     /**
      * Costruttore della classe che inizializza 
-     * la matrice con tuple del database.
-     * @param server Nome del server.
-     * @param database Nome del database.
-     * @param table Nome della tabella.
-     * @param userID Nome utente.
-     * @param psw Password.
-     * @throws DatabaseConnectionException Eccezione lanciata quando si verifica un errore durante la connessione al database.
-     * @throws SQLException Eccezione lanciata quando si verifica un errore durante l'accesso al database.
-     * @throws NoValueException Eccezione lanciata quando non è presente alcun valore.
-     * @throws EmptySetException Eccezione lanciata quando la tabella è vuota.
-     */
-    public Data(String server, String database, String table, String userID, String psw)
-    	throws DatabaseConnectionException, SQLException, NoValueException, EmptySetException {
-        DbAccess db = new DbAccess(server, database, userID, psw);
-        db.initConnection();
-        TableData td = new TableData(db);
-        TableSchema ts = new TableSchema(db, table);
-        data = td.getDistinctTransazioni(table);
-        numberOfExamples = data.size();
-        attributeSet = new ArrayList < > ();
-        double qMIN;
-        double qMAX;
-        for (int i = 0; i < ts.getNumberOfAttributes(); i++) {
-            if (ts.getColumn(i).isNumber()) {
-                qMIN = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MIN);
-                qMAX = (double) td.getAggregateColumnValue(table, ts.getColumn(i), QUERY_TYPE.MAX);
-                attributeSet.add(new ContinuousAttribute(ts.getColumn(i).getColumnName(), i, qMIN, qMAX));
-            } else {
-                HashSet < Object > distValues = (HashSet < Object > ) td.getDistinctColumnValues(table, ts.getColumn(i));
-                HashSet < String > values = new HashSet < > ();
-                for (Object o: distValues)
-                    values.add((String) o);
-                attributeSet.add(new DiscreteAttribute(ts.getColumn(i).getColumnName(), i, values));
-            }
-
-        }
-    }
-    
-    //ACCESSO SENZA INPUT (forse migliore???)
-
-    /**
-     * Costruttore della classe che inizializza 
-     * la matrice con tuple del database.
+     * l'insieme dei dati con tuple del database.
      * @param table Nome della tabella.
      * @throws DatabaseConnectionException Eccezione lanciata quando si verifica un errore durante la connessione al database.
      * @throws SQLException Eccezione lanciata quando si verifica un errore durante l'accesso al database.
@@ -178,15 +136,14 @@ public class Data {
     }
 
     /**
-     * Metodo che restituisce un array di interi che rappresenta
-     * gli indici in data per le tuple inizialmente selezionate come centroidi.
-     * @param k Numero di cluster da generare.
+     * Genera un campione di indici casuali univoci da utilizzare come indici dei centroidi.
+     * @param k numero dei centroidi da generare.
      * @return Array di k interi.
      * @throws OutOfRangeSampleSize Eccezione lanciata quando il valore inserito non è compreso tra 1 e il numero di righe in data.
      */
     public int[] sampling(int k) throws OutOfRangeSampleSize {
         if (k < 1 || k > data.size()) throw new OutOfRangeSampleSize
-        	("\n--- Valore inserito non valido: deve essere compreso tra 1 e " + data.size() + " ---\n");
+        	("Valore inserito non valido: deve essere compreso tra 1 e " + data.size());
         int[] centroidIndexes = new int[k];
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
@@ -223,7 +180,8 @@ public class Data {
     }
 
     /**
-     * Metodo che restituisce il valore del centroide rispetto all'attributo specificato.
+     * Metodo che distingue attraverso RTTI il prototipo basato 
+     * sull'insieme di identificatori e sull'attributo forniti.
      * @param idList Lista di interi che rappresenta gli indici di riga delle tuple.
      * @param attribute Attributo (discreto o continuo) di cui calcolare il centroide.
      * @return Valore centroide rispetto all'attributo specificato.
@@ -236,7 +194,8 @@ public class Data {
     }
 
     /**
-     * Metodo che restituisce il valore del centroide rispetto all'attributo specificato.
+     * Metodo che determina il valore prototipo più frequente per 
+     * attribute nelle transazioni di data aventi indice di riga in idList.
      * @param idList Lista di interi che rappresenta gli indici di riga delle tuple.
      * @param attribute Attributo discreto di cui calcolare il centroide.
      * @return Valore centroide rispetto all'attributo specificato.
@@ -259,7 +218,8 @@ public class Data {
     }
 
     /**
-     * Metodo che restituisce il valore del centroide rispetto all'attributo specificato.
+     * Metodo che determina il valore prototipo come media dei valori osservati 
+     * per attribute nelle transazioni di data aventi indice di riga in idList.
      * @param idList Lista di interi che rappresenta gli indici di riga delle tuple.
      * @param attribute Attributo continuo di cui calcolare il centroide.
      * @return Valore centroide rispetto all'attributo specificato.

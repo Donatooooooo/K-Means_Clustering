@@ -50,26 +50,6 @@ public class DbAccess {
     private Connection conn;
 
     /**
-     * Costruttore della classe a zero argomenti. 
-     */
-    public DbAccess() {
-    }
-
-    /**
-     * Costruttore della classe a quattro argomenti.
-     * @param SERVER nome del server su cui è in esecuzione il DBMS.
-     * @param DATABASE nome del database da utilizzare.
-     * @param userId nome utente per la connessione al database.
-     * @param PASSWORD password di autenticazione per l'utente.
-     */
-    public DbAccess(String SERVER, String DATABASE, String userId, String PASSWORD) {
-        this.SERVER = SERVER;
-        this.DATABASE = DATABASE;
-        this.USER_ID = userId;
-        this.PASSWORD = PASSWORD;
-    }
-
-    /**
 	 * Metodo che impartisce al class loader l'ordine di caricare il driver mysql, inizializza
 	 * la connessione riferita da conn. Il metodo solleva e propaga una eccezione di
 	 * tipo DatabaseConnectionException in caso di fallimento nella connessione al

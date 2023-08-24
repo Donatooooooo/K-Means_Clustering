@@ -75,25 +75,8 @@ class Cluster implements Serializable {
     }
 
     /**
-	 * Metodo che restituisce una stringa contenente il solo centroide del Custer.
-	 * @return Stringa contenente il centroide.
-	 */
-	@Override
-    public String toString() {
-        String str = "Centroid=(";
-        for (int i = 0; i < centroid.getLength(); i++) {
-            str += centroid.get(i);
-            if (i < centroid.getLength() - 1) {
-                str += " ";
-            }       	
-        }
-        str += ")";
-        return str;
-    }
-
-    /**
 	 * Metodo che restituisce una stringa contenente il risultato della clusterizzazione.
-	 * @param data Riferimento all'oggetto matrice.
+	 * @param data Riferimento all'oggetto che contiene i dati.
 	 * @return Stringa contenente il risultato della clusterizzazione.
 	 */
     public String toString(Data data) {

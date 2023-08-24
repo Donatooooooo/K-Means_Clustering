@@ -57,7 +57,8 @@ public class ServerOneClient extends Thread{
 		String tabName = null;
 		Data data = null;
 		int k = 0;
-		String tn = "\n[" + getName() + "] ";
+		String ip = socket.getInetAddress().getHostAddress();
+		String info = "\n[" + getName() + ": " + ip + "] ";
 		try {
 			while (true) {
 				int command = (Integer) in.readObject();
@@ -65,14 +66,14 @@ public class ServerOneClient extends Thread{
 				case 0:
 					tabName = (String) in.readObject();
 					try {
-						System.out.print(tn);
+						System.out.print(info);
 						data = new Data(tabName);
 						out.writeObject("OK");
-						System.out.println(tn + "Lettura tabella da DB");
+						System.out.println(info + "Lettura tabella da DB");
 					} catch (final EmptySetException e) {
-						out.writeObject("\n--- Tabella vuota, sceglierne un'altra ---\n");
+						out.writeObject("Tabella vuota, sceglierne un'altra");
 					} catch (SQLException e) {
-						out.writeObject("\n--- Tabella non trovata, sceglierne un'altra ---\n");
+						out.writeObject("Tabella non trovata, sceglierne un'altra");
 					} catch (DatabaseConnectionException | NoValueException e) {
 						out.writeObject(e.getMessage());
 					}
@@ -83,7 +84,7 @@ public class ServerOneClient extends Thread{
 					try {
 						kmeans=new KMeansMiner(k);
 						numIter=kmeans.kmeans(data);
-						System.out.println(tn + "Clusterizzazione dati");
+						System.out.println(info + "Clusterizzazione dati");
 						out.writeObject("OK");
 						out.writeObject(numIter);
 						out.writeObject("\n" + kmeans.getC().toString(data));
@@ -95,35 +96,36 @@ public class ServerOneClient extends Thread{
 					try {
 	                    kmeans.SaveKMeansMiner(tabName + "_" + k + ".dat");
 	                    out.writeObject("OK");
-	                    System.out.println(tn + tabName + "_" + k + ".dat: file salvato");
+	                    System.out.println(info + tabName + "_" + k + ".dat: file salvato");
 	                } catch (FileNotFoundException e) {
-	                	out.writeObject("\n--- File non trovato ---\n");
+	                	out.writeObject("File non trovato");
 	                } catch (IOException e) {
-	                	out.writeObject("\n--- Errore di input ---\n");
+	                	out.writeObject("Errore di input");
 	                }
 					break;
 				case 3:
 					tabName = (String) in.readObject();
 					k = (Integer) in.readObject();
 					try {
-						System.out.print(tn);
+						System.out.print(info);
 						data = new Data(tabName);
 						kmeans = new KMeansMiner(tabName + "_" + k+ ".dat");
 		                out.writeObject("OK");
 						out.writeObject(kmeans.getC().toString(data));
-						System.out.println(tn + tabName + "_" + k + ".dat: file letto");
+						System.out.println(info + tabName + "_" + k + ".dat: file letto");
 					} catch (EmptySetException e) {
-						out.writeObject("\n--- Tabella vuota, sceglierne un'altra ---\n");
+						out.writeObject("Tabella vuota, sceglierne un'altra");
 					} catch (SQLException e) {
-						out.writeObject("\n--- Tabella non trovata, sceglierne un'altra ---\n");
+						out.writeObject("Tabella non trovata, sceglierne un'altra");
 					} catch (DatabaseConnectionException | NoValueException e) {
 						out.writeObject(e.getMessage());
 					} catch (FileNotFoundException e) {
-	                	out.writeObject("\n--- File non trovato ---\n");
+	                	out.writeObject("File non trovato");
 	                } catch (IOException e) {
-	                	out.writeObject("\n--- Errore di input/output ---\n");
+						e.printStackTrace();
+	                	out.writeObject("Errore di input/output");
 	                } catch (ClassNotFoundException e) {
-	                	out.writeObject("\n--- Classe non disponibile ---\n");
+	                	out.writeObject("Classe non disponibile");
 	                } 
 					break;
 				case 4:
@@ -135,9 +137,9 @@ public class ServerOneClient extends Thread{
 		} finally {
 			try {
 				socket.close();
-				System.out.println("\n+++ [" + getName() + "] Socket chiuso +++");
+				System.out.println("\n+++ [" + getName() + ": " + ip + "] Socket chiuso +++");
 			} catch(IOException e) {
-				System.err.println("\n--- [" + getName() + "] Socket non chiuso ---");
+				System.err.println("\n--- [" + getName() + ": " + ip + "] Socket non chiuso ---");
 			}
 		}
 	}

@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,7 +21,7 @@ class MainTest {
     private ObjectInputStream in ;
 
     /**
-     * Costruttore della classe che inizializza gli stream di input e output.
+     * Costruttore della classe che inizializza gli stream di input e output e si connette al server.
      * @param ip Indirizzo ip del server.
      * @param port Porta del server.
      * @throws IOException Eccezione lanciata in caso di errore di connessione.
@@ -39,8 +37,7 @@ class MainTest {
     }
 
     /**
-     * Metdo che crea Data in base alla 
-     * tabella passata in input. (CASO 0)
+     * Metodo che comunica al server quale tabella del database utilizzare.
      * @throws SocketException Eccezione lanciata in caso di errore di connessione.
      * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
      * @throws IOException Eccezione lanciata in caso di errore di I/O.
@@ -57,8 +54,8 @@ class MainTest {
     }
 
     /**
-     * Metodo che crea i cluster in base alla 
-     * tabella passata in input. (CASO 1)
+     * Metodo che comunica al server di iniziare l'operazione di clustering dalla tabella
+     * precedentemente memorizzata.
      * @throws SocketException Eccezione lanciata in caso di errore di connessione.
      * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
      * @throws IOException Eccezione lanciata in caso di errore di I/O.
@@ -79,7 +76,7 @@ class MainTest {
     }
 
     /**
-     * Metodo che salva i cluster su file.  (CASO 2)
+     * Metodo che comuniva al server di salvare i dati clusterizzati in un file.
      * @throws SocketException Eccezione lanciata in caso di errore di connessione.
      * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
      * @throws IOException Eccezione lanciata in caso di errore di I/O.
@@ -93,7 +90,7 @@ class MainTest {
     }
 
     /**
-     * Metodo che legge i cluster da file. (CASO 3)
+     * Metodo che comunica al server di leggere il file.
      * @throws SocketException Eccezione lanciata in caso di errore di connessione.
      * @throws ServerException Eccezione lanciata in caso di errore di esecuzione del server.
      * @throws IOException Eccezione lanciata in caso di errore di I/O.
@@ -152,17 +149,15 @@ class MainTest {
             ip = args[0];
             port = Integer.parseInt(args[1]);
         } else {
-            System.out.print("IP: ");
-            ip = Keyboard.readString();
-            System.out.print("PORTA: ");
-            port = Keyboard.readInt();
+            ip = "127.0.0.1";
+            port = 8083;
         }
         MainTest main = null;
         try {
             main = new MainTest(ip, port);
             System.out.println("+++ Connessione avvenuta +++\n");
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("--- Connessione al server fallita, assicurati che sia online ---\n");
             return;
         }
 
@@ -179,9 +174,6 @@ class MainTest {
                     } catch (SocketException e) {
                         System.out.println(e);
                         return;
-                    } catch (FileNotFoundException e) {
-                        System.out.println(e);
-                        return;
                     } catch (IOException e) {
                         System.out.println(e);
                         return;
@@ -189,20 +181,17 @@ class MainTest {
                         System.out.println(e);
                         return;
                     } catch (ServerException e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("\n--- " + e.getMessage() + " ---\n");
                         flag = false;
                     }
                 } while (!flag);
                 break;
-            case 2: // learning from db
+            case 2:
                 while (true) {
                     try {
                         main.storeTableFromDb();
-                        break; //esce fuori dal while
+                        break; 
                     } catch (SocketException e) {
-                        System.out.println(e);
-                        return;
-                    } catch (FileNotFoundException e) {
                         System.out.println(e);
                         return;
                     } catch (IOException e) {
@@ -212,9 +201,9 @@ class MainTest {
                         System.out.println(e);
                         return;
                     } catch (ServerException e) {
-                        System.out.println(e.getMessage());
+                    	System.out.println("\n--- " + e.getMessage() + " ---\n");
                     }
-                } //end while [viene fuori dal while con un db (in alternativa il programma termina)
+                }
 
                 do {
                     try {
@@ -227,9 +216,6 @@ class MainTest {
                     } catch (SocketException e) {
                         System.out.println(e);
                         return;
-                    } catch (FileNotFoundException e) {
-                        System.out.println(e);
-                        return;
                     } catch (ClassNotFoundException e) {
                         System.out.println(e);
                         return;
@@ -237,7 +223,7 @@ class MainTest {
                         System.out.println(e);
                         return;
                     } catch (ServerException e) {
-                        System.out.println(e.getMessage());
+                    	System.out.println("\n--- " + e.getMessage() + " ---\n");
                         flag = false;
                     }
                     if (flag) {

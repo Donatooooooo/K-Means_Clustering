@@ -66,10 +66,10 @@ public class Tuple implements Serializable {
 
     /**
      * Metodo che restituisce la media delle distanze 
-     * tra la tupla corrente e quelle ottenibili dalle 
-     * righe della matrice in data aventi indice in clusteredData. 
+     * tra la tupla corrente e quelle ottenibili dall'insieme 
+     * di dati aventi indice in clusteredData. 
      * @param data Riferimento all'oggetto data.
-     * @param clusteredData Insieme di indici di riga della matrice in data.
+     * @param clusteredData Insieme di indici di posizione in data.
      * @return Media delle distanze.
      */
     public double avgDistance(Data data, Set < Integer > clusteredData) {
