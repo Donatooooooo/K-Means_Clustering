@@ -16,7 +16,7 @@ public class ClusterSet implements Serializable{
 	/**
 	 * Indice di posizione all'interno dell'array C.
 	 */
-	private int i = 0; //posizione valida per la memorizzazione di un nuovo cluster in C
+	private int i = 0;
 	
 	/**
 	 * Costruttore della classe ClusterSet che inizializza l'array C[].
@@ -27,7 +27,7 @@ public class ClusterSet implements Serializable{
 	 */
 	ClusterSet(int k) throws OutOfRangeSampleSize {
 		if (k < 0) {
-			throw new OutOfRangeSampleSize("\n--- Valore inserito non valido: non può essere negativo ---\n");
+			throw new OutOfRangeSampleSize("Valore inserito non valido: non puo' essere negativo");
 		}
 		C = new Cluster[k];
 	}
