@@ -69,7 +69,7 @@ public class DbAccess {
             conn = DriverManager.getConnection(connectionString);
         } catch (SQLException e) {
             throw new DatabaseConnectionException(
-                "--- SQLException: " + e.getMessage() + " ---\n");
+                "SQLException: " + e.getMessage());
         }
     }
 
@@ -90,7 +90,7 @@ public class DbAccess {
             conn.close();
         } catch (SQLException e) {
             throw new DatabaseConnectionException
-            	("--- Errore durante la chiusura della connessione: " + e.getMessage() + " ---\n");
+            	("Errore durante la chiusura della connessione: " + e.getMessage());
         }
     }
 }

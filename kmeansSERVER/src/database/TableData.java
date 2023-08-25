@@ -52,7 +52,7 @@ public class TableData {
         s.close();
         rs.close();
         if (list.isEmpty()) 
-        	throw new EmptySetException("--- Tabella " + table + " vuota ---");
+        	throw new EmptySetException("Tabella " + table + " vuota");
         return list;
     }
 
@@ -106,7 +106,7 @@ public class TableData {
                 else 
                 	ret = rs.getString("aggregata");
             } else {
-            	throw new NoValueException("--- Nessun valore per la colonna " + column.getColumnName() + " ---");
+            	throw new NoValueException("Nessun valore per la colonna " + column.getColumnName());
             }
         } finally {
             s.close();

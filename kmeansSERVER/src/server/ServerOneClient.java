@@ -122,7 +122,6 @@ public class ServerOneClient extends Thread{
 					} catch (FileNotFoundException e) {
 	                	out.writeObject("File non trovato");
 	                } catch (IOException e) {
-						e.printStackTrace();
 	                	out.writeObject("Errore di input/output");
 	                } catch (ClassNotFoundException e) {
 	                	out.writeObject("Classe non disponibile");
