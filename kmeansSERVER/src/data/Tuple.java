@@ -18,7 +18,7 @@ public class Tuple implements Serializable {
      * Costruttore della classe che inizializza la dimensione della tupla.
      * @param size Dimensione della tupla.
      */
-    Tuple(int size) {
+    Tuple(final int size) {
         tuple = new Item[size];
     }
 
@@ -35,7 +35,7 @@ public class Tuple implements Serializable {
      * @param i Indice dell'array.
      * @return Item in posizione i.
      */
-    public Item get(int i) {
+    public Item get(final int i) {
         return tuple[i];
     }
 
@@ -44,7 +44,7 @@ public class Tuple implements Serializable {
      * @param c Item da inserire.
      * @param i Indice dell'array.
      */
-    void add(Item c, int i) {
+    void add(final Item c, final int i) {
         tuple[i] = c;
     }
 
@@ -56,7 +56,7 @@ public class Tuple implements Serializable {
      * @param obj Tupla da cui calcolare la distanza.
      * @return Distanza tra le due tuple.
      */
-    public double getDistance(Tuple obj) {
+    public double getDistance(final Tuple obj) {
         double distance = 0.0;
         for (int i = 0; i < getLength(); i++) {
             distance += tuple[i].distance(obj.get(i).getValue());
@@ -72,7 +72,7 @@ public class Tuple implements Serializable {
      * @param clusteredData Insieme di indici di posizione in data.
      * @return Media delle distanze.
      */
-    public double avgDistance(Data data, Set < Integer > clusteredData) {
+    public double avgDistance(final Data data, final Set < Integer > clusteredData) {
         double p = 0.0, sumD = 0.0;
         for (int i: clusteredData) {
             double d = getDistance(data.getItemSet(i));

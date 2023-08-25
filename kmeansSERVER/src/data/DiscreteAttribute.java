@@ -21,7 +21,7 @@ class DiscreteAttribute extends Attribute implements Iterable < String >{
      * @param index Indice dell'attributo.
      * @param values Insieme di stringhe che rappresentano i valori che l'attributo può assumere.
      */
-    DiscreteAttribute(String name, int index, Set < String > values) {
+    DiscreteAttribute(final String name, final int index, final Set < String > values) {
         super(name, index);
         this.values = new TreeSet < String > ();
         for (String s: values)
@@ -55,7 +55,7 @@ class DiscreteAttribute extends Attribute implements Iterable < String >{
      * @param v valore dell'attributo.
      * @return Numero di occorenze del valore discreto.
      */
-    int frequency(Data data, Set < Integer > idList, String v) {
+    int frequency(final Data data, final Set < Integer > idList, final String v) {
         int count = 0;
         for (int i: idList) {
             if (data.getAttributeValue(i, this.getIndex()).equals(v))

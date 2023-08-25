@@ -38,7 +38,7 @@ public class Data {
      * @throws NoValueException Eccezione lanciata quando non è presente alcun valore.
      * @throws EmptySetException Eccezione lanciata quando la tabella è vuota.
      */
-    public Data(String table) throws DatabaseConnectionException, SQLException, NoValueException, EmptySetException {
+    public Data(final String table) throws DatabaseConnectionException, SQLException, NoValueException, EmptySetException {
         DbAccess db = new DbAccess();
         db.initConnection();
         TableData td = new TableData(db);
@@ -86,7 +86,7 @@ public class Data {
      * @param attributeIndex Indice di colonna.
      * @return Valore della matrice alla riga e colonna specificate.
      */
-    public Object getAttributeValue(int exampleIndex, int attributeIndex) {
+    public Object getAttributeValue(final int exampleIndex, final int attributeIndex) {
         return data.get(exampleIndex).get(attributeIndex);
     }
 
@@ -95,7 +95,7 @@ public class Data {
      * @param index Indice dell'attributo.
      * @return Attributo alla colonna specificata.
      */
-    Attribute getAttribute(int index) {
+    Attribute getAttribute(final int index) {
         return attributeSet.get(index);
     }
 
@@ -124,7 +124,7 @@ public class Data {
      * @param index Indice della riga.
      * @return Tupla che modella la riga specificata.
      */
-    public Tuple getItemSet(int index) {
+    public Tuple getItemSet(final int index) {
         Tuple tuple = new Tuple(attributeSet.size());
         for (Attribute a: attributeSet) {
             if (a instanceof DiscreteAttribute)
@@ -141,7 +141,7 @@ public class Data {
      * @return Array di k interi.
      * @throws OutOfRangeSampleSize Eccezione lanciata quando il valore inserito non è compreso tra 1 e il numero di righe in data.
      */
-    public int[] sampling(int k) throws OutOfRangeSampleSize {
+    public int[] sampling(final int k) throws OutOfRangeSampleSize {
         if (k < 1 || k > data.size()) throw new OutOfRangeSampleSize
         	("Valore inserito non valido: deve essere compreso tra 1 e " + data.size());
         int[] centroidIndexes = new int[k];
@@ -172,7 +172,7 @@ public class Data {
      * @return true se le tuple in posizione i e j hanno gli stessi 
      * valori per tutti gli attributi, false altrimenti.
      */
-    private boolean compare(int i, int j) {
+    private boolean compare(final int i, final int j) {
         for (Attribute a: attributeSet)
             if (!data.get(i).get(a.getIndex()).equals(data.get(j).get(a.getIndex())))
                 return false;
@@ -186,7 +186,7 @@ public class Data {
      * @param attribute Attributo (discreto o continuo) di cui calcolare il centroide.
      * @return Valore centroide rispetto all'attributo specificato.
      */
-    Object computePrototype(Set < Integer > idList, Attribute attribute) {
+    Object computePrototype(final Set < Integer > idList, final Attribute attribute) {
         if (attribute instanceof DiscreteAttribute)
             return computePrototype(idList, (DiscreteAttribute) attribute);
         else
@@ -200,7 +200,7 @@ public class Data {
      * @param attribute Attributo discreto di cui calcolare il centroide.
      * @return Valore centroide rispetto all'attributo specificato.
      */
-    String computePrototype(Set < Integer > idList, DiscreteAttribute attribute) {
+    String computePrototype(final Set < Integer > idList, final DiscreteAttribute attribute) {
         Iterator < String > i = attribute.iterator();
         String prototype = i.next();
         int max = attribute.frequency(this, idList, prototype);
@@ -224,7 +224,7 @@ public class Data {
      * @param attribute Attributo continuo di cui calcolare il centroide.
      * @return Valore centroide rispetto all'attributo specificato.
      */
-    double computePrototype(Set < Integer > idList, ContinuousAttribute attribute) {
+    double computePrototype(final Set < Integer > idList, final ContinuousAttribute attribute) {
         double sum = 0;
         for (int i: idList)
             sum += (Double) data.get(i).get(attribute.getIndex());

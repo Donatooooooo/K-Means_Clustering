@@ -9,7 +9,7 @@ class ServerException extends Exception {
 	 * e che inizializza il messaggio di errore.
 	 * @param txt Stringa che rappresenta il messaggio di errore.
 	 */
-	public ServerException(String txt) {
+	public ServerException(final String txt) {
 		super(txt);
 	}
 }

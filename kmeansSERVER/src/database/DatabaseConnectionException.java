@@ -11,7 +11,7 @@ public class DatabaseConnectionException extends Exception{
 	 * Richiama il costruttore della superclasse Exception.
 	 * @param txt messaggio di errore.
 	 */
-	public DatabaseConnectionException(String txt) {
+	public DatabaseConnectionException(final String txt) {
 		super(txt);
 	}
 }

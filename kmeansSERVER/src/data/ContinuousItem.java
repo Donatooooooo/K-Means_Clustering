@@ -12,7 +12,7 @@ class ContinuousItem extends Item{
 	 * @param attribute Elemento di tipo attributo.
 	 * @param value Valore dell'attributo.
 	 */
-	ContinuousItem(Attribute attribute, double value) {
+	ContinuousItem(final Attribute attribute, final double value) {
 		super(attribute, value);
 	}
 
@@ -21,7 +21,7 @@ class ContinuousItem extends Item{
 	 * @param a Oggetto di tipo Object.
 	 * @return Distanza tra due ContinuousItem.
 	 */
-	double distance(Object a) {
+	double distance(final Object a) {
 		return Math.abs(((ContinuousAttribute) getAttribute()).getScaledValue((Double) getValue())
 						- ((ContinuousAttribute) getAttribute()).getScaledValue((Double) a));
 	}

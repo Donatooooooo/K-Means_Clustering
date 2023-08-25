@@ -26,7 +26,7 @@ class MainTest {
      * @param port Porta del server.
      * @throws IOException Eccezione lanciata in caso di errore di connessione.
      */
-    public MainTest(String ip, int port) throws IOException {
+    public MainTest(final String ip, final int port) throws IOException {
         InetAddress addr = InetAddress.getByName(ip);
         System.out.println("\nINFO DI CONNESSIONE:");
         System.out.println("addr = " + addr);

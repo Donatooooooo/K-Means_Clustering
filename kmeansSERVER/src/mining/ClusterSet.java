@@ -25,7 +25,7 @@ public class ClusterSet implements Serializable{
 	 * il range dichiarato
 	 * @param k intero raffigurante la dimensione di C[]
 	 */
-	ClusterSet(int k) throws OutOfRangeSampleSize {
+	ClusterSet(final int k) throws OutOfRangeSampleSize {
 		if (k < 0) {
 			throw new OutOfRangeSampleSize("Valore inserito non valido: non puo' essere negativo");
 		}
@@ -37,7 +37,7 @@ public class ClusterSet implements Serializable{
 	 * in posizione i incrementadola di 1.
 	 * @param c cluster da inserire.
 	 */
-	void add(Cluster c) {
+	void add(final Cluster c) {
 		C[i]=c;
 		i++;
 	}
@@ -46,7 +46,7 @@ public class ClusterSet implements Serializable{
 	 * Metodo che restituisce il cluster presente in posizione i.
 	 * @param i Intero che rappresenta la posizione.
 	 */
-	Cluster get(int i) {
+	Cluster get(final int i) {
 		return C[i];
 	}
 	
@@ -56,7 +56,7 @@ public class ClusterSet implements Serializable{
 	 * @throws OutOfRangeSampleSize Eccezione scaturita qualora l'intero inserito 
 	 * dall'utente non rispetti il range dichiarato
 	 */
-	void initializeCentroids(Data data) throws OutOfRangeSampleSize {
+	void initializeCentroids(final Data data) throws OutOfRangeSampleSize {
 		int[] centroidIndexes = data.sampling(C.length);
 		for (int i = 0; i < centroidIndexes.length; i++) {
             Tuple centroidI = data.getItemSet(centroidIndexes[i]);
@@ -65,11 +65,11 @@ public class ClusterSet implements Serializable{
 	}
     
 	/**
-	 * Metodo che il cluster più vicino.
+	 * Metodo che indica il cluster più vicino.
 	 * @param tuple Tupla su cui effettuare il controllo
 	 * @return Cluster più vicino
 	 */
-     Cluster nearestCluster(Tuple tuple) {
+     Cluster nearestCluster(final Tuple tuple) {
     	double min = tuple.getDistance(C[0].getCentroid());
     	double tmp;
         Cluster nearest = C[0];
@@ -89,7 +89,7 @@ public class ClusterSet implements Serializable{
  	 * @param id Intero che rappresenta l'identificativo dell'elemento.
  	 * @return I-esimo elemento di C.
  	 */
-    Cluster currentCluster(int id) {
+    Cluster currentCluster(final int id) {
         for (int i = 0; i < C.length; i++) {
             if (C[i].contain(id))
             {
@@ -115,7 +115,7 @@ public class ClusterSet implements Serializable{
    	 * @param data, insieme di dati
    	 * @return str, stringa utilizzata
    	 */
-    public String toString(Data data) {
+    public String toString(final Data data) {
         String str = "";
         for (int i = 0; i < C.length; i++){
             if (C[i] != null){

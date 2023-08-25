@@ -12,7 +12,7 @@ class DiscreteItem extends Item{
 	 * @param attribute Attributo dell'item.
 	 * @param value Valore dell'attributo.
 	 */
-	DiscreteItem(DiscreteAttribute attribute, String value) {
+	DiscreteItem(final DiscreteAttribute attribute, final String value) {
 		super(attribute, value);
 	}
 	
@@ -21,7 +21,7 @@ class DiscreteItem extends Item{
 	 * @param a Oggetto di tipo Object.
 	 * @return Distanza tra due DiscreteItem.
 	 */
-	double distance(Object a) {
+	double distance(final Object a) {
 		if(getValue().equals(a))
 			return 0;
 		return 1;

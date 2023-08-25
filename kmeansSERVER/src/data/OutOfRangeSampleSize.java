@@ -11,7 +11,7 @@ public class OutOfRangeSampleSize extends Exception{
 	 * Costruttore della classe, richiama il costruttore della superclasses Exception. 
 	 * @param txt Messaggio di errore.
 	 */
-	 public OutOfRangeSampleSize(String txt) {
+	 public OutOfRangeSampleSize(final String txt) {
 		super(txt);
 	 }
 	

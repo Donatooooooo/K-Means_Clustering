@@ -18,7 +18,7 @@ public class Example implements Comparable < Example > {
      * Metodo che aggiunge un oggetto alla lista.
      * @param o oggetto da aggiungere alla lista.
      */
-    public void add(Object o) {
+    public void add(final Object o) {
         example.add(o);
     }
 
@@ -27,7 +27,7 @@ public class Example implements Comparable < Example > {
      * @param i indice dell'elemento da restituire.
      * @return l'i-esimo elemento collezionato nella lista.
      */
-    public Object get(int i) {
+    public Object get(final int i) {
         return example.get(i);
     }
 
@@ -35,7 +35,7 @@ public class Example implements Comparable < Example > {
      * Implementazione del metodo compareTo dell'interfaccia Comparable.
      * @param ex oggetto da confrontare con l'oggetto corrente.
      */
-    public int compareTo(Example ex) {
+    public int compareTo(final Example ex) {
         int i = 0;
         for (Object o: ex.example) {
             if (!o.equals(this.example.get(i)))

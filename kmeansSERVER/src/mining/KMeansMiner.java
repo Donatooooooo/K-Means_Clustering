@@ -20,7 +20,7 @@ public class KMeansMiner implements Serializable{
      * @throws OutOfRangeSampleSize Eccezione scaturita qualora l'intero 
      * inserito dall'utente non rispetti il range dichiarato.
      */
-    public KMeansMiner(int k) throws OutOfRangeSampleSize {
+    public KMeansMiner(final int k) throws OutOfRangeSampleSize {
         C = new ClusterSet(k);
     }
 
@@ -32,7 +32,7 @@ public class KMeansMiner implements Serializable{
      * @throws IOException Eccezione scaturita qualora si verifichino errori di input/output.
      * @throws ClassNotFoundException Eccezione scaturita qualora la classe non venga trovata.
      */
-    public KMeansMiner(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public KMeansMiner(final String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
         ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileName)));
         C = (ClusterSet) in.readObject();
         in.close();
@@ -45,7 +45,7 @@ public class KMeansMiner implements Serializable{
      * @throws FileNotFoundException Eccezione scaturita qualora il file non venga trovato.
      * @throws IOException Eccezione scaturita qualora si verifichino errori di input/output.
      */
-    public void SaveKMeansMiner(String fileName) throws FileNotFoundException, IOException {
+    public void SaveKMeansMiner(final String fileName) throws FileNotFoundException, IOException {
         ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
         out.writeObject(C);
         out.close();

@@ -23,7 +23,7 @@ public abstract class Item implements Serializable {
      * @param attribute Attributo.
      * @param value Valore dell'attributo.
      */
-    Item(Attribute attribute, Object value) {
+    Item(final Attribute attribute, final Object value) {
         this.attribute = attribute;
         this.value = value;
     }
@@ -67,7 +67,7 @@ public abstract class Item implements Serializable {
 	 * @param data riferimento a Data
 	 * @param clusteredData insieme di indici delle righe della matrice in data che formano il cluster.
 	 */
-    public void update(Data data, Set < Integer > clusteredData) {
+    public void update(final Data data, final Set < Integer > clusteredData) {
         value = data.computePrototype(clusteredData, attribute);
     }
 }

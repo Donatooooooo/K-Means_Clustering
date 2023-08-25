@@ -39,7 +39,7 @@ public class TableSchema {
          * @param name nome della colonna.
          * @param type tipo del dato della colonna.
          */
-        Column(String name, String type) {
+        Column(final String name, final String type) {
             this.name = name;
             this.type = type;
         }
@@ -75,7 +75,7 @@ public class TableSchema {
      * @param tableName Nome della tabella.
      * @throws SQLException eccezione generica SQL.
      */
-    public TableSchema(DbAccess db, String tableName) throws SQLException {
+    public TableSchema(final DbAccess db, final String tableName) throws SQLException {
         HashMap < String, String > mapSQL_JAVATypes = new HashMap < String, String > ();
         //http://java.sun.com/j2se/1.3/docs/guide/jdbc/getstart/mapping.html
         mapSQL_JAVATypes.put("CHAR", "string");
@@ -113,7 +113,7 @@ public class TableSchema {
      * @param index Indice della colonna.
      * @return Colonna della tabella indicata dall'indice.
      */
-    public Column getColumn(int index) {
+    public Column getColumn(final int index) {
         return tableSchema.get(index);
     }
 }

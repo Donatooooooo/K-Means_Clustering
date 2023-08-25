@@ -25,7 +25,7 @@ class Cluster implements Serializable {
      * Costruttore che assegna il centroide e crea un insieme di interi.
      * @param centroid centroide del cluster
      */
-    Cluster(Tuple centroid) {
+    Cluster(final Tuple centroid) {
         this.centroid = centroid;
         clusteredData = new HashSet < Integer > ();
 
@@ -43,7 +43,7 @@ class Cluster implements Serializable {
      * Metodo che assegna il centroide del cluster.
      * @param data Riferimento all'oggetto matrice.
      */
-    void computeCentroid(Data data) {
+    void computeCentroid(final Data data) {
         for (int i = 0; i < centroid.getLength(); i++)
             centroid.get(i).update(data, clusteredData);
     }
@@ -53,7 +53,7 @@ class Cluster implements Serializable {
 	 * @param id Identificativo da inserire in clusteredData.
 	 * @return Valore booleano se la tupla è stata inserita.
 	 */
-    boolean addData(int id) {
+    boolean addData(final int id) {
         return clusteredData.add(id);
     }
 
@@ -62,7 +62,7 @@ class Cluster implements Serializable {
 	 * @param id Identificatore della tupla di cui si vuole effettuare la verifica.
 	 * @return Valore booleano se è presente.
 	 */
-    boolean contain(int id) {
+    boolean contain(final int id) {
         return clusteredData.contains(id);
     }
 
@@ -70,7 +70,7 @@ class Cluster implements Serializable {
 	 * Metodo che rimuove la tupla che ha cambiato il cluster.
 	 * @param id Identificatore della tupla da rimuovere.
 	 */
-    void removeTuple(int id) {
+    void removeTuple(final int id) {
         clusteredData.remove(id);
     }
 
@@ -79,7 +79,7 @@ class Cluster implements Serializable {
 	 * @param data Riferimento all'oggetto che contiene i dati.
 	 * @return Stringa contenente il risultato della clusterizzazione.
 	 */
-    public String toString(Data data) {
+    public String toString(final Data data) {
         String str = "Centroid = (";
         for (int i = 0; i < centroid.getLength(); i++) {
             str += centroid.get(i);

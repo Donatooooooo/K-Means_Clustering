@@ -11,7 +11,7 @@ public class NoValueException extends Exception {
    * Richiama il costruttore della superclasse Exception.
    * @param txt messaggio di errore.
    */
-  public NoValueException(String txt) {
+  public NoValueException(final String txt) {
     super(txt);
   }
 }

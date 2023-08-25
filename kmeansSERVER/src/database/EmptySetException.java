@@ -11,7 +11,7 @@ public class EmptySetException extends Exception {
    * Costruttore della classe che richiama il costruttore della superclasse.
    * @param txt messaggio di errore.
    */
-  public EmptySetException(String txt) {
+  public EmptySetException(final String txt) {
     super(txt);
   }
 }

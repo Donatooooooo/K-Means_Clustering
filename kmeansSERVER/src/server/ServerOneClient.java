@@ -42,7 +42,7 @@ public class ServerOneClient extends Thread{
 	 * @param s Socket per la comunicazione con il client.
 	 * @throws IOException Eccezione di I/O.
 	 */
-	public ServerOneClient(Socket s) throws IOException {
+	public ServerOneClient(final Socket s) throws IOException {
 		socket = s;
 		in = new ObjectInputStream(socket.getInputStream());
 		out = new ObjectOutputStream(socket.getOutputStream());

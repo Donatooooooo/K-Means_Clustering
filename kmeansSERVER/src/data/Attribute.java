@@ -20,7 +20,7 @@ abstract class Attribute implements Serializable {
 	 * @param name nome dell'attributo.
 	 * @param index indice dell'attributo.
 	 */
-	Attribute(String name, int index) {
+	Attribute(final String name, final int index) {
 		this.name = name;
 		this.index = index;
 	}

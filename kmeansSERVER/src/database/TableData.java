@@ -20,7 +20,7 @@ public class TableData {
      * Costruttore della classe che inizializza l'oggetto di tipo DbAccess.
      * @param db Gestore del'accesso al database.
      */
-    public TableData(DbAccess db) {
+    public TableData(final DbAccess db) {
         this.db = db;
     }
 
@@ -32,7 +32,7 @@ public class TableData {
      * @throws SQLException Eccezione SQL generica.
      * @throws EmptySetException Eccezione che viene lanciata quando la tabella e' vuota.
      */
-    public List < Example > getDistinctTransazioni(String table)
+    public List < Example > getDistinctTransazioni(final String table)
     		throws SQLException, EmptySetException {
     	List < Example > list = new ArrayList < > ();
         TableSchema ts = new TableSchema(db, table);
@@ -65,7 +65,7 @@ public class TableData {
      * @return Insieme di valori distinti per l'attributo identificato dal nome della colonna.
      * @throws SQLException Eccezione SQL generica.
      */
-    public Set < Object > getDistinctColumnValues(String table, Column column) throws SQLException {
+    public Set < Object > getDistinctColumnValues(final String table, final Column column) throws SQLException {
     	HashSet < Object > set = new HashSet < > ();
         Statement s = db.getConnection().createStatement();
         ResultSet rs = s.executeQuery("SELECT DISTINCT " + column.getColumnName() + " " 
@@ -93,7 +93,7 @@ public class TableData {
      * @throws SQLException Eccezione SQL generica.
      * @throws NoValueException Eccezione che viene lanciata quando il risultato è vuoto.
      */
-    public Object getAggregateColumnValue(String table, Column column, QUERY_TYPE aggregate) 
+    public Object getAggregateColumnValue(final String table, final Column column, final QUERY_TYPE aggregate) 
     		throws SQLException, NoValueException {
         Object ret;
         Statement s = db.getConnection().createStatement();
