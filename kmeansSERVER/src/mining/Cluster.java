@@ -19,20 +19,22 @@ class Cluster implements Serializable {
     /**
      * Oggetto che rappresenta un insieme di interi
      */
-    private Set < Integer > clusteredData;
+    private Set<Integer> clusteredData;
 
     /**
      * Costruttore che assegna il centroide e crea un insieme di interi.
+     * 
      * @param centroid centroide del cluster
      */
     Cluster(final Tuple centroid) {
         this.centroid = centroid;
-        clusteredData = new HashSet < Integer > ();
+        clusteredData = new HashSet<Integer>();
 
     }
 
     /**
      * Metodo che restituisce il centroide del cluster.
+     * 
      * @return Centroide del cluster.
      */
     Tuple getCentroid() {
@@ -41,6 +43,7 @@ class Cluster implements Serializable {
 
     /**
      * Metodo che assegna il centroide del cluster.
+     * 
      * @param data Riferimento all'oggetto matrice.
      */
     void computeCentroid(final Data data) {
@@ -49,36 +52,41 @@ class Cluster implements Serializable {
     }
 
     /**
-	 * Metodo che aggiunge una tupla al Cluster.
-	 * @param id Identificativo da inserire in clusteredData.
-	 * @return Valore booleano se la tupla è stata inserita.
-	 */
+     * Metodo che aggiunge una tupla al Cluster.
+     * 
+     * @param id Identificativo da inserire in clusteredData.
+     * @return Valore booleano se la tupla è stata inserita.
+     */
     boolean addData(final int id) {
         return clusteredData.add(id);
     }
 
     /**
-	 * Metodo che verifica se una transazione è clusterizzata nell'array corrente.
-	 * @param id Identificatore della tupla di cui si vuole effettuare la verifica.
-	 * @return Valore booleano se è presente.
-	 */
+     * Metodo che verifica se una transazione è clusterizzata nell'array corrente.
+     * 
+     * @param id Identificatore della tupla di cui si vuole effettuare la verifica.
+     * @return Valore booleano se è presente.
+     */
     boolean contain(final int id) {
         return clusteredData.contains(id);
     }
 
     /**
-	 * Metodo che rimuove la tupla che ha cambiato il cluster.
-	 * @param id Identificatore della tupla da rimuovere.
-	 */
+     * Metodo che rimuove la tupla che ha cambiato il cluster.
+     * 
+     * @param id Identificatore della tupla da rimuovere.
+     */
     void removeTuple(final int id) {
         clusteredData.remove(id);
     }
 
     /**
-	 * Metodo che restituisce una stringa contenente il risultato della clusterizzazione.
-	 * @param data Riferimento all'oggetto che contiene i dati.
-	 * @return Stringa contenente il risultato della clusterizzazione.
-	 */
+     * Metodo che restituisce una stringa contenente il risultato della
+     * clusterizzazione.
+     * 
+     * @param data Riferimento all'oggetto che contiene i dati.
+     * @return Stringa contenente il risultato della clusterizzazione.
+     */
     public String toString(final Data data) {
         String str = "Centroid = (";
         for (int i = 0; i < centroid.getLength(); i++) {
@@ -101,4 +109,18 @@ class Cluster implements Serializable {
         str += "AvgDistance=" + getCentroid().avgDistance(data, clusteredData) + "\n";
         return str;
     }
+
+    /**
+     * Metodo che sovrascrive il metodo equals della classe Object
+     * per effettuare un confronto di uguaglianza tra due Cluster.
+     * 
+     * @param obj Oggetto da confrontare.
+     * @return true se i due Cluster sono uguali, false altrimenti.
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        Cluster c = (Cluster) obj;
+        return centroid.equals(c.centroid) && clusteredData.equals(c.clusteredData);
+    }
+
 }
