@@ -22,7 +22,7 @@ public class MenuController {
     private Button DB;
 	
 	/**
-	 * Apre la pagina del caricamento da file.
+	 * Metodo che richiede l'apertura della pagina del caricamento da file.
 	 */
 	@FXML
 	private void fromFile() {
@@ -30,7 +30,7 @@ public class MenuController {
 	}
 
 	/**
-	 * Apre la pagina della scoperta dal database.
+	 * Metodo che richiede l'apertura della pagina della scoperta dal database.
 	 */
 	@FXML
 	private void fromDB() {

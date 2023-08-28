@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class Paging {
 
 	/**
-	 * metodo che carica e mostra la pagina principale.
+	 * Metodo che carica e mostra la pagina principale.
 	 * @param primaryStage finestra principale su cui caricare la pagina UI.
 	 */
 	static void loadPage(Stage primaryStage) {
@@ -27,7 +27,7 @@ public class Paging {
 			Paging p = new Paging();
 			Image icon = new Image("Icon.png");
 			primaryStage.getIcons().add(icon);
-			Parent root = FXMLLoader.load(p.getClass().getResource("../UI/Start.fxml"));
+			Parent root = FXMLLoader.load(p.getClass().getResource("Start.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setTitle("K-Means client");
 			primaryStage.setScene(scene);
@@ -39,7 +39,7 @@ public class Paging {
 	}
 	
 	/**
-	 * carica e mostra le pagine secondarie a seconda della chiamata.
+	 * Metodo che carica e mostra le pagine secondarie a seconda della chiamata.
 	 * @param fileName nome del file da caricare.
 	 * @param title titolo della finestra.
 	 * @param o oggetto su cui verrà applicato RTTI per ottenere le informazioni sul tipo di finestra.
@@ -47,7 +47,7 @@ public class Paging {
 	static void loadPage(String fileName, String title, Object o) {
 		try {
 			Paging p = new Paging();
-            FXMLLoader fxmlLoader = new FXMLLoader(p.getClass().getResource("../UI/" + fileName));
+            FXMLLoader fxmlLoader = new FXMLLoader(p.getClass().getResource(fileName));
             Parent root = fxmlLoader.load();
             Scene newScene = new Scene(root);
             Stage stage;

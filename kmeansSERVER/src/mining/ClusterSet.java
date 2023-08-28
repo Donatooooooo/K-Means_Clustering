@@ -49,6 +49,7 @@ public class ClusterSet implements Serializable {
 	 * Metodo che restituisce il cluster presente in posizione i.
 	 * 
 	 * @param i Intero che rappresenta la posizione.
+	 * @return C[i], elemento i-esimo di C.
 	 */
 	Cluster get(final int i) {
 		return C[i];

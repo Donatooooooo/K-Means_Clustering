@@ -2,7 +2,7 @@ package data;
 
 /**
  * Classe concreta che estende la classe Item e
- * rappresenta una coppia <Attributo continuo - valore continuo>.
+ * rappresenta una coppia Attributo continuo - valore continuo.
  */
 class ContinuousItem extends Item {
 

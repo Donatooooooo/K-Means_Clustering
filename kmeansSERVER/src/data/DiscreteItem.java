@@ -2,7 +2,7 @@ package data;
 
 /**
  * Classe concreta che estende la classe Item e
- * rappresenta una coppia <Attributo discreto - valore discreto>.
+ * rappresenta una coppia Attributo discreto - valore discreto.
  */
 class DiscreteItem extends Item {
 

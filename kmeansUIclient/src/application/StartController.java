@@ -34,7 +34,7 @@ public class StartController {
     private static Client client;
 
     /**
-     * Consente di operare con il client
+     * Metodo che consente di operare con il client.
      * @return client oggetto di tipo client.
      */
     static Client getClient() {
@@ -42,18 +42,18 @@ public class StartController {
     }
 
     /**
-     * Avvia il caricamento della barra all'apertura del programma. In caso 
+     * Metodo che avvia il caricamento della barra all'apertura del programma. In caso 
      * il collegamento al server fallisce, chiude l'app.
      */
     @FXML
     public void initialize() {
     	try {
+    		loadStartingBar();
     		client = new Client();
-    	} catch (IOException e) {
+    	} catch (Exception e) {
     		Paging.showAlert("Connessione al server fallita, assicurati che sia online");
     		System.exit(0);
     	}
-		loadStartingBar();
     }
 
     /**
@@ -76,7 +76,7 @@ public class StartController {
     }
 
     /**
-     * Aggiorna la barra in base al progresso.
+     * Metodo che aggiorna la barra in base al progresso.
      * @param progress nuovo progresso da aggiungere.
      */
     private void updateBar(double progress) {
@@ -84,7 +84,7 @@ public class StartController {
     }
 
     /**
-     * Apre il menu principale.
+     * Metodo che richiede l'apertura del menu principale.
      */
     private void openMenu() {
     	Paging.loadPage("Menu.fxml", "Menu", bar);

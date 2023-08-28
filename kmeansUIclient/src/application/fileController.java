@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 /**
  * Classe che controlla la pagina "File.fxml".
@@ -43,6 +44,12 @@ public class fileController {
      */
     @FXML
     private TextArea result;
+    
+    /**
+     * Area di testo dove visualizzare i risultati.
+     */
+    @FXML
+    private Text info;
 
     /**
      * Inizializza result rendendolo non editabile.
@@ -53,7 +60,7 @@ public class fileController {
     }
 
     /**
-     * Esegue la lettura del file
+     * Metodo che attraverso Client esegue la lettura del file
      */
     @FXML
     private void loadFromFile() {
@@ -62,6 +69,7 @@ public class fileController {
     			throw new ServerException("Inserisci dei valori");
     		int k = Integer.parseInt(nCluster.getText());
     		String res = StartController.getClient().learningFromFile(tabName.getText(), k);
+    		info.setText("Lettura da " + tabName.getText() + "_" +nCluster.getText() + ".dat");
         	result.setText(res);
     	} catch (SocketException e) {
     		Paging.showAlert(e.getMessage());
@@ -79,7 +87,7 @@ public class fileController {
     }
 
     /**
-     * Richiama il caricamento alla pagina del menu.
+     * Metodo che richiama il caricamento alla pagina del menu.
      */
     @FXML
     private void backtoMenu() {

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * Classe concreta Tuple che rappresenta una tupla
- * come sequenza di coppie <Attributo - valore>.
+ * come sequenza di coppie Attributo - valore.
  */
 public class Tuple implements Serializable {
 

@@ -1,3 +1,4 @@
+package client;
 /**
  * Classe che estende Exception e che
  * gestisce le eccezioni scaturite dal server.

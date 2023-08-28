@@ -3,7 +3,7 @@ package mining;
 import data.*;
 import java.io.*;
 
-/*
+/**
  * Classe concrete che implementa Serializable e che
  * implementa l'algoritmo K-means per la clustering dei dati.
  */
@@ -66,7 +66,7 @@ public class KMeansMiner implements Serializable{
 	 * 3) Calcolo dei nuovi centroidi per ciascun cluster;
 	 * 4) Ripete i passi 2 e 3 finchè due iterazioni consecutive non restituiscono centroidi uguali.
      * @throws OutOfRangeSampleSize Eccezione scaturita qualora l'intero inserito dall'utente non rispetti il range dichiarato.
-     * @param Data Insieme di dati su cui applicare il k-means.
+     * @param data Insieme di dati su cui applicare il k-means.
      * @return Numero di iterazioni effettuate durante l'esecuzione del k-means.
      */
     public int kmeans(Data data) throws OutOfRangeSampleSize {

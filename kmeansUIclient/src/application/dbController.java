@@ -54,7 +54,7 @@ public class dbController {
     }
 
     /**
-     * Esegue la clusterizzazione dal DB.
+     * Metodo che attraverso Client esegue la clusterizzazione dal DB.
      */
     @FXML
     private void loadFromDB() {
@@ -82,7 +82,7 @@ public class dbController {
     }
 
     /**
-     * Richiama il caricamento alla pagina del menu.
+     * Metodo che richiama il caricamento alla pagina del menu.
      */
     @FXML
     private void backtoMenu() {
