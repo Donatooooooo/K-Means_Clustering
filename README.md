@@ -1,5 +1,3 @@
 ![Logo](Kmeans.png)
 
-K-Means Clustering è un progetto software, scritto in Java, che permette la clusterizzazione di esempi di dati a partire da una tabella di un database. Il software è composto da due applicativi: un client e un server. In particolare, il client consente agli utenti di interagire con il server attraverso il terminale, in maniera tale da ottenere i risultati delle operazioni di clustering e caricamento file. Il client, quindi, offre funzionalità intuitive per selezionare le impostazioni desiderate, come il numero di cluster K da definire e la tabella da cui estrarre i dati. Il server è il motore vero e proprio del software in quanto può eseguire diverse richieste per i diversi client connessi. In particolare, può estrapolare dati da una tabella di un database, eseguire il clustering su quei dati, salvarli e di conseguenza leggerli da un file. Inoltre, lo stato del server è consultabile da terminale. 
-
-Il software comprende un terzo applicativo: è stato sviluppato un client grafico che utilizza lo stesso server.
+K-Means Clustering è un progetto software, scritto in Java, che permette la clusterizzazione di esempi di dati a partire da una tabella di un database. Il software è composto da tre applicativi: due versioni client (console o interfaccia grafica) e un server.
