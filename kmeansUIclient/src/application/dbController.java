@@ -65,7 +65,7 @@ public class dbController {
 			int k = Integer.parseInt(nCluster.getText());
 			String res = StartController.getClient().learningFromDbTable(k);
 			StartController.getClient().storeClusterInFile();
-			result.setText(res);
+			result.setText(res + "File salvato");
     	} catch (SocketException e) {
     		Paging.showAlert(e.getMessage());
     	} catch (ClassNotFoundException e) {

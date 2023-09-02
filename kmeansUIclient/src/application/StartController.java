@@ -1,13 +1,8 @@
 package application;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.ProgressBar;
-
-import java.io.File;
-import java.io.IOException;
-
 import client.Client;
 import javafx.application.Platform;
 
@@ -48,12 +43,12 @@ public class StartController {
     @FXML
     public void initialize() {
     	try {
-    		loadStartingBar();
-    		client = new Client();
+    		client = new Client(Main.getIp(), Main.getPort());
     	} catch (Exception e) {
     		Paging.showAlert("Connessione al server fallita, assicurati che sia online");
     		System.exit(0);
     	}
+    	loadStartingBar();
     }
 
     /**
