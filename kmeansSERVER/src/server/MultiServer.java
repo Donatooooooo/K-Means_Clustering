@@ -33,7 +33,10 @@ public class MultiServer {
 	 * @param args argomenti in input
 	 */
 	public static void main(String[] args) {
-		new MultiServer(8083);
+		if(args.length > 0) 
+			new MultiServer(Integer.parseInt(args[0]));
+		else
+			new MultiServer(8080);
 	}
 	
 	/**

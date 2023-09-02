@@ -26,9 +26,9 @@ public class Client {
      * Costruttore della classe che inizializza gli stream di input e output e si connette al server.
      * @throws IOException Eccezione lanciata in caso di errore di connessione.
      */
-    public Client() throws IOException {
-    	InetAddress addr = InetAddress.getByName("127.0.0.1");
-		Socket socket = new Socket(addr, 8083);
+    public Client(String ip, int port) throws IOException {
+    	InetAddress addr = InetAddress.getByName(ip);
+		Socket socket = new Socket(addr, port);
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
     }
