@@ -12,7 +12,7 @@ import java.net.SocketException;
  * Classe che implementa il client per il programma di clustering.
  */
 public class Client {
-
+	
     /**
      * Stream di output verso il server.
      */

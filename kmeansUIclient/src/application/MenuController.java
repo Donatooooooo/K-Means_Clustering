@@ -26,7 +26,8 @@ public class MenuController {
 	 */
 	@FXML
 	private void fromFile() {
-		Paging.loadPage("file.fxml", "Lettura da file", file);
+		Paging page = Paging.getInstance();
+		page.loadPage("file.fxml", "Lettura da file", file);
 	}
 
 	/**
@@ -34,6 +35,7 @@ public class MenuController {
 	 */
 	@FXML
 	private void fromDB() {
-		Paging.loadPage("db.fxml", "Scoperta da DB", DB);
+		Paging page = Paging.getInstance();
+		page.loadPage("db.fxml", "Scoperta da DB", DB);
 	}
 }
