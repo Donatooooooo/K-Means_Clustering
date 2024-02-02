@@ -58,6 +58,7 @@ public class dbController {
      */
     @FXML
     private void loadFromDB() {
+    	Paging page = Paging.getInstance();
     	try {
     		if(tabName.getText().isEmpty() || nCluster.getText().isEmpty())
     			throw new ServerException("Inserisci dei valori");
@@ -67,15 +68,15 @@ public class dbController {
 			StartController.getClient().storeClusterInFile();
 			result.setText(res + "File salvato");
     	} catch (SocketException e) {
-    		Paging.showAlert(e.getMessage());
+    		page.showAlert(e.getMessage());
     	} catch (ClassNotFoundException e) {
-    		Paging.showAlert(e.getMessage());
+    		page.showAlert(e.getMessage());
     	} catch (IOException e) {
-    		Paging.showAlert(e.getMessage());
+    		page.showAlert(e.getMessage());
     	} catch (ServerException e) {
-    		Paging.showAlert(e.getMessage());
+    		page.showAlert(e.getMessage());
     	} catch (NumberFormatException e) {
-    		Paging.showAlert("Numero cluster non valido, scegliere un altro valore");
+    		page.showAlert("Numero cluster non valido, scegliere un altro valore");
     	}
     	tabName.clear();
     	nCluster.clear();
@@ -86,7 +87,8 @@ public class dbController {
      */
     @FXML
     private void backtoMenu() {
-    	Paging.loadPage("Menu.fxml", "Menu", back);
+    	Paging page = Paging.getInstance();
+		page.loadPage("Menu.fxml", "Menu", back);
     }
 
 }

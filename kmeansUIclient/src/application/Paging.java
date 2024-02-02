@@ -14,15 +14,37 @@ import javafx.stage.Stage;
 
 
 /**
- * Classe che contiene metodi statici per il caricamento delle pagine dell'UI.
+ * Classe che contiene metodi per il caricamento delle pagine dell'UI.
  */
 public class Paging {
-
+	
+	/**
+	 * instanza della classe singleton
+	 */
+	private static Paging instance;
+	
+	/**
+	 * costruttore privato
+	 */
+	private Paging() {
+	}
+	
+	/**
+	 * Metodoget per l'istanza
+	 * @return instance del paging
+	 */
+	static Paging getInstance() {
+		if (instance == null) {
+			instance = new Paging();
+		}
+		return instance;
+	}
+	
 	/**
 	 * Metodo che carica e mostra la pagina principale.
 	 * @param primaryStage finestra principale su cui caricare la pagina UI.
 	 */
-	static void loadPage(Stage primaryStage) {
+	void loadPage(Stage primaryStage) {
 		try {
 			Paging p = new Paging();
 			Image icon = new Image("Icon.png");
@@ -44,7 +66,7 @@ public class Paging {
 	 * @param title titolo della finestra.
 	 * @param o oggetto su cui verrà applicato RTTI per ottenere le informazioni sul tipo di finestra.
 	 */
-	static void loadPage(String fileName, String title, Object o) {
+	void loadPage(String fileName, String title, Object o) {
 		try {
 			Paging p = new Paging();
             FXMLLoader fxmlLoader = new FXMLLoader(p.getClass().getResource(fileName));
@@ -71,7 +93,7 @@ public class Paging {
 	 * Metodo che permette di visualizzare finestre di eccezione.
 	 * @param errorMessage messaggio da visualizzare nella finestra.
 	 */
-    static void showAlert(String errorMessage) {
+    void showAlert(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Errore");
         alert.setHeaderText(null);

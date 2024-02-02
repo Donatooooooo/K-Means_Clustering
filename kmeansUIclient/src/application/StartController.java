@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.ProgressBar;
 import client.Client;
+import client.serverInfo;
 import javafx.application.Platform;
 
 /**
@@ -42,10 +43,12 @@ public class StartController {
      */
     @FXML
     public void initialize() {
+    	serverInfo connectionTo = serverInfo.getInstance();
     	try {
-    		client = new Client(Main.getIp(), Main.getPort());
+    		client = new Client(connectionTo.getIP(), connectionTo.getPort());
     	} catch (Exception e) {
-    		Paging.showAlert("Connessione al server fallita, assicurati che sia online");
+    		Paging page = Paging.getInstance();
+    		page.showAlert("Connessione al server fallita, assicurati che sia online");
     		System.exit(0);
     	}
     	loadStartingBar();
@@ -82,6 +85,7 @@ public class StartController {
      * Metodo che richiede l'apertura del menu principale.
      */
     private void openMenu() {
-    	Paging.loadPage("Menu.fxml", "Menu", bar);
+    	Paging page = Paging.getInstance();
+		page.loadPage("Menu.fxml", "Menu", bar);
     }
 }
